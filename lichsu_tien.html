@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Sử Cộng Tiền</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', Arial, sans-serif; padding-top: 40px; }
+        .history-container { background: #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 30px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="history-container">
+        <!-- Logo tham chiếu logo_2.jpg -->
+        <div class="text-center mb-3">
+            <img src="logo.jpg" alt="Logo" style="width: 60px; height: 60px; border-radius: 50%;">
+        </div>
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+            <h4 class="m-0 fw-bold text-success"><i class="fa-solid fa-money-bill-transfer me-2"></i>LỊCH SỬ CỘNG TIỀN</h4>
+            <a href="home.html" class="btn btn-sm btn-outline-secondary">Quay lại</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Hình thức</th>
+                        <th>Số tiền</th>
+                        <th>Thời gian</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody id="depositHistoryTable"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyD_8idShoCkxrEqFkTY4HZYEkTINtHbw7I",
+        authDomain: "shopgame-b6cc6.firebaseapp.com",
+        databaseURL: "https://shopgame-b6cc6-default-rtdb.firebaseio.com",
+        projectId: "shopgame-b6cc6",
+        storageBucket: "shopgame-b6cc6.firebasestorage.app",
+        messagingSenderId: "597813903573",
+        appId: "1:597813903573:web:3d64f5f96ad87bad95225c"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    window.onload = () => {
+        const email = localStorage.getItem('currentUserEmail');
+        if (!email) { window.location.href = 'index.html'; return; }
+
+        db.ref('sys_cards').orderByChild('userEmail').equalTo(email).on('value', snap => {
+            const tbody = document.getElementById('depositHistoryTable');
+            if (!snap.exists()) { tbody.innerHTML = `<tr><td colspan="5">Chưa có giao dịch nào!</td></tr>`; return; }
+            
+            const deposits = [];
+            snap.forEach(s => deposits.push(s.val()));
+            tbody.innerHTML = deposits.reverse().map((d, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${d.type}</td>
+                    <td class="text-success fw-bold">+${parseInt(d.value).toLocaleString()}đ</td>
+                    <td class="small">${d.time}</td>
+                    <td><span class="badge ${d.status === 'Thành công' ? 'bg-success' : 'bg-warning'}">${d.status}</span></td>
+                </tr>
+            `).join('');
+        });
+    };
+</script>
+</body>
+</html>

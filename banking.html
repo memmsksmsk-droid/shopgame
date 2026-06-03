@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nạp Tiền Tự Động Qua Ngân Hàng</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --bg-light: #f4f6f9;
+            --text-main: #333333;
+            --border-color: #dee2e6;
+            --success-color: #198754;
+        }
+
+        body { 
+            background-color: var(--bg-light); 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            padding: 20px; 
+        }
+
+        .banking-container {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 30px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .qr-box {
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .copy-btn {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+        }
+
+        .quick-amount-btn {
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .polling-status {
+            background: rgba(13, 110, 253, 0.05);
+            border: 1px solid rgba(13, 110, 253, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="banking-container">
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+        <h4 class="m-0 fw-bold text-primary"><i class="fa-solid fa-university me-2"></i>Cổng Nạp Tiền Ngân Hàng Tự Động</h4>
+        <a href="home.html" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-arrow-left me-1"></i> Quay lại</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-5 text-center">
+            <p class="small text-muted mb-2 fw-semibold">Quét mã QR bằng App Ngân hàng</p>
+            <div class="qr-box shadow-sm mb-2">
+                <img id="qrCodeImg" src="" alt="Đang tạo mã QR thanh toán..." style="max-width: 100%; height: auto; display: none; border-radius: 4px;">
+                <div id="qrLoading" class="spinner-border text-primary" role="status"></div>
+            </div>
+            <div class="alert alert-warning py-2 px-3 small m-0 mt-3 text-start">
+                <i class="fa-solid fa-circle-info me-1"></i> <b>Lưu ý:</b> Giữ nguyên nội dung chuyển khoản. Hệ thống tự động quét 24/7 và cộng tiền vào ví trong 10-15 giây.
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="mb-3">
+                <label class="form-label small fw-bold text-secondary">1. Nhập số tiền bạn muốn nạp (đ):</label>
+                <input type="number" id="amountInput" class="form-control form-control-sm fw-bold text-danger fs-5 mb-2" value="50000" min="10000" step="10000" oninput="updateAmountAndQR()">
+                <div class="d-flex flex-wrap gap-1">
+                    <span class="badge bg-light text-dark border quick-amount-btn" onclick="setQuickAmount(20000)">20,000đ</span>
+                    <span class="badge bg-light text-dark border quick-amount-btn" onclick="setQuickAmount(50000)">50,000đ</span>
+                    <span class="badge bg-light text-dark border quick-amount-btn" onclick="setQuickAmount(100000)">100,000đ</span>
+                    <span class="badge bg-light text-dark border quick-amount-btn" onclick="setQuickAmount(200000)">200,000đ</span>
+                    <span class="badge bg-light text-dark border quick-amount-btn" onclick="setQuickAmount(500000)">500,000đ</span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-light rounded-3 border border-light mt-4">
+                <h6 class="fw-bold mb-3 text-dark border-bottom pb-2">2. Thông tin chuyển khoản thủ công</h6>
+                
+                <div class="info-row">
+                    <span class="small text-muted">Ngân hàng:</span>
+                    <span class="fw-bold text-dark" id="bankNameText">MBBank</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="small text-muted">Số tài khoản:</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold text-primary" id="accountNumberText">03444959999</span>
+                        <button class="btn btn-xs btn-outline-primary copy-btn" onclick="copyText('accountNumberText')"><i class="fa-regular fa-copy"></i></button>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <span class="small text-muted">Chủ tài khoản:</span>
+                    <span class="fw-bold text-dark text-uppercase">TRAN HOANG BACH</span>
+                </div>
+
+                <div class="info-row">
+                    <span class="small text-muted">Số tiền chuyển:</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold text-danger" id="amountText">0đ</span>
+                        <button class="btn btn-xs btn-outline-primary copy-btn" onclick="copyText('amountText', true)"><i class="fa-regular fa-copy"></i></button>
+                    </div>
+                </div>
+
+                <div class="info-row bg-warning bg-opacity-10 p-2 rounded border border-warning border-opacity-20 mt-2">
+                    <span class="small text-dark fw-bold">Nội dung ghi chú:</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold text-danger" id="transferContentText">...</span>
+                        <button class="btn btn-xs btn-danger copy-btn py-1" onclick="copyText('transferContentText')"><i class="fa-regular fa-copy"></i> Copy nội dung</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="polling-status">
+                <div class="spinner-border spinner-border-sm text-primary mb-2" role="status"></div>
+                <h6 class="fw-bold text-primary m-0">HỆ THỐNG ĐANG CHỜ THANH TOÁN...</h6>
+                <p class="small text-muted m-0 mt-1">Đừng đóng trình duyệt! Đang tự động quét ngân hàng...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-body text-center p-4">
+                <div class="text-success mb-3"><i class="fa-solid fa-circle-check fs-1"></i></div>
+                <h5 class="fw-bold text-dark mb-2">Nạp Tiền Thành Công!</h5>
+                <p class="text-secondary small" id="successModalMessage">...</p>
+                <hr>
+                <button onclick="window.location.href='home.html'" class="btn btn-primary btn-sm px-4 fw-bold">Quay Lại Trang Chủ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // ==========================================
+    // CẤU HÌNH API SEPAY - QUAN TRỌNG
+    // ==========================================
+    const CONFIG_BANK = "MBBank";       
+    const CONFIG_ACC = "03444959999";    
+    
+    // BẠN PHẢI ĐIỀN API TOKEN CỦA SEPAY VÀO ĐÂY ĐỂ HỆ THỐNG KIỂM TRA ĐƯỢC LỊCH SỬ TIỀN VÀO
+    const SEPAY_API_TOKEN = "HVPHY7YUCW1TXZNASOXMKXJ4JGUBWTZRH01EKLGB0UT2PZNVNJQCAG98VAETQ9RO"; 
+
+    let currentEmail = '';
+    let currentAmount = 50000;
+    let apiInterval;
+
+    window.onload = function() {
+        currentEmail = localStorage.getItem('currentUserEmail');
+        if(!currentEmail) {
+            alert("Vui lòng đăng nhập hệ thống trước!");
+            window.location.href = 'index.html';
+            return;
+        }
+
+        document.getElementById('transferContentText').innerText = "NAP " + currentEmail;
+        updateAmountAndQR();
+
+        // Cứ mỗi 10 giây (10000ms), hệ thống sẽ gọi API check ngân hàng một lần
+        apiInterval = setInterval(checkRealPaymentAuto, 10000);
+    };
+
+    function setQuickAmount(value) {
+        document.getElementById('amountInput').value = value;
+        updateAmountAndQR();
+    }
+
+    function updateAmountAndQR() {
+        const inputVal = document.getElementById('amountInput').value;
+        currentAmount = parseInt(inputVal) || 0;
+        document.getElementById('amountText').innerText = currentAmount.toLocaleString() + "đ";
+
+        const qrImg = document.getElementById('qrCodeImg');
+        const qrLoading = document.getElementById('qrLoading');
+
+        if(currentAmount < 1000) return;
+
+        qrImg.style.display = 'none';
+        qrLoading.style.display = 'block';
+
+        const rawContent = "NAP " + currentEmail;
+        const safeContent = encodeURIComponent(rawContent);
+        const cleanAmount = currentAmount.toString().replace(/[^0-9]/g, '');
+        const generatedUrl = `https://qr.sepay.vn/img?bank=${CONFIG_BANK}&acc=${CONFIG_ACC}&amount=${cleanAmount}&des=${safeContent}`;
+
+        qrImg.src = generatedUrl;
+        qrImg.onload = function() {
+            qrLoading.style.display = 'none';
+            qrImg.style.display = 'block';
+        };
+    }
+
+    // ==========================================
+    // CHỨC NĂNG QUÉT TIỀN TỰ ĐỘNG BẰNG API
+    // ==========================================
+    function checkRealPaymentAuto() {
+        if(SEPAY_API_TOKEN === "ĐIỀN_API_TOKEN_CỦA_BẠN_VÀO_ĐÂY" || !SEPAY_API_TOKEN) {
+            console.log("Bạn chưa điền SEPAY_API_TOKEN nên chức năng quét tự động bị vô hiệu hóa.");
+            return;
+        }
+
+        // Gọi API của SePay để lấy danh sách giao dịch gần nhất
+        fetch("https://my.sepay.vn/userapi/transactions/list", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + SEPAY_API_TOKEN,
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data && data.transactions) {
+                const expectedContent = ("NAP " + currentEmail).toLowerCase();
+                const expectedAmount = currentAmount;
+
+                // Tìm giao dịch khớp Số tiền VÀ Khớp Nội dung
+                const validTransaction = data.transactions.find(t => 
+                    t.transaction_content.toLowerCase().includes(expectedContent) &&
+                    parseInt(t.amount_in) === expectedAmount
+                );
+
+                if (validTransaction) {
+                    // Kiểm tra xem mã giao dịch này đã được xử lý cộng tiền chưa (tránh cộng x2)
+                    let processedTxs = JSON.parse(localStorage.getItem('sys_processed_tx')) || [];
+                    
+                    if (!processedTxs.includes(validTransaction.id)) {
+                        // Lưu mã giao dịch lại
+                        processedTxs.push(validTransaction.id);
+                        localStorage.setItem('sys_processed_tx', JSON.stringify(processedTxs));
+                        
+                        // Dừng vòng lặp quét quét quét
+                        clearInterval(apiInterval);
+                        
+                        // Thực thi cộng tiền cho người dùng
+                        executeSuccessAction(validTransaction.id);
+                    }
+                }
+            }
+        })
+        .catch(error => {
+            console.error("Lỗi khi kết nối tới SePay: ", error);
+        });
+    }
+
+    // HÀM THỰC THI CỘNG TIỀN
+    function executeSuccessAction(transactionId) {
+        // CHÈN THÊM: Ghi lịch sử nạp ngân hàng thành công vào hệ thống
+let bankingHistoryList = JSON.parse(localStorage.getItem('sys_cards')) || [];
+bankingHistoryList.push({
+    id: 'BANK_' + transactionId,
+    userEmail: currentEmail,
+    type: 'Ngân hàng (MBBank)',
+    value: parseInt(currentAmount),
+    pin: 'N/A',
+    seri: 'N/A',
+    status: 'Thành công',
+    time: new Date().toLocaleString()
+});
+localStorage.setItem('sys_cards', JSON.stringify(bankingHistoryList));
+        let users = JSON.parse(localStorage.getItem('sys_users')) || [];
+        let userIdx = users.findIndex(u => u.email === currentEmail);
+        
+        if (userIdx !== -1) {
+            users[userIdx].balance = (users[userIdx].balance || 0) + currentAmount;
+            localStorage.setItem('sys_users', JSON.stringify(users));
+        }
+
+        document.getElementById('successModalMessage').innerHTML = `Đã nhận đủ <b class="text-success">+${currentAmount.toLocaleString()}đ</b> vào MB Bank.<br>Mã giao dịch: #${transactionId}<br>Tài khoản của bạn đã được cộng số dư thành công!`;
+        
+        const myModal = new bootstrap.Modal(document.getElementById('successModal'));
+        myModal.show();
+    }
+
+    function copyText(elementId, isNumber = false) {
+        let text = document.getElementById(elementId).innerText;
+        if(isNumber) text = text.replace(/[^0-9]/g, '');
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Đã sao chép: " + text);
+        });
+    }
+</script>
+</body>
+</html>

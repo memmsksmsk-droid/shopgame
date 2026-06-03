@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Quản Lý Hệ Thống | TEAM LOLREBORN</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* 1. Thiết lập cơ bản cho nền trắng */
+    body { 
+        background-color: #f8f9fa !important; 
+        color: #212529 !important; 
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* 2. Khung thẻ Admin sạch sẽ */
+    .admin-card, .card {
+        background-color: #ffffff !important;
+        border: 1px solid #dee2e6 !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* 3. ĐỊNH DẠNG NÚT BẤM (CỐ ĐỊNH MÀU) */
+    /* Nút Duyệt (Màu xanh lá) */
+    .btn-success {
+        background-color: #198754 !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    
+    /* Nút Hủy (Màu đỏ) */
+    .btn-danger {
+        background-color: #dc3545 !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+
+    /* Nút mặc định/Cyber cũ (Màu xanh dương) */
+    .btn-primary, .btn-cyber {
+        background-color: #0d6efd !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+
+    /* 4. Table (Bảng) sáng sủa */
+    .table {
+        background-color: #ffffff !important;
+        color: #212529 !important;
+    }
+    
+    .table thead {
+        background-color: #f1f3f5 !important;
+    }
+
+    /* 5. Ép kiểu chữ trong các phần tử */
+    h1, h2, h3, h4, h5, h6, .card-title, label, th {
+        color: #212529 !important;
+    }
+
+    /* Đảm bảo chữ trong badge trạng thái không bị lỗi */
+    .badge {
+        color: #ffffff !important;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container-fluid px-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="m-0 fw-bold text-dark">
+                <i class="fa-solid fa-user-gear text-primary me-2"></i>PANEL ĐIỀU HÀNH TRUNG TÂM
+            </h2>
+            <p class="text-muted small m-0">Chào mừng Admin Tuấn Anh | Quản lý sản phẩm, ví thành viên và thẻ nạp hệ thống.</p>
+        </div>
+        <button onclick="logoutAdmin()" class="btn btn-sm btn-danger px-3"><i class="fa-solid fa-power-off me-1"></i> Đăng xuất</button>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-4 col-lg-6 col-12">
+            <div class="admin-card">
+                <h5><i class="fa-solid fa-plus-circle me-2 text-primary"></i>Đăng Gói Sản Phẩm Mới</h5>
+                <form id="productForm" onsubmit="handleCreateProduct(event)">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Tên gói phần mềm:</label>
+                            <input type="text" id="pName" class="form-control form-control-sm" placeholder="Ví dụ: KEY LOLREBORN - 1 NGÀY" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Giá bán (VNĐ):</label>
+                            <input type="number" id="pPrice" class="form-control form-control-sm" placeholder="Ví dụ: 20000" required>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Hình ảnh sản phẩm (File JPG/PNG từ máy):</label>
+                            <div class="upload-box">
+                                <input type="file" id="pImgFile" accept="image/*" class="form-control form-control-sm" onchange="previewAndCompressImage(this)" required>
+                                <img id="uploadPreview" src="#" alt="Preview" style="max-width: 100%; max-height: 120px; display: none; margin-top: 10px; border-radius: 4px;">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Icon bổ trợ (Mặc định):</label>
+                            <select id="pIcon" class="form-select form-select-sm">
+                                <option value="fa-cube">fa-cube (Hộp khối đơn)</option>
+                                <option value="fa-cubes">fa-cubes (Nhiều khối)</option>
+                                <option value="fa-box-open">fa-box-open (Thùng mở)</option>
+                                <option value="fa-shield-halved">fa-shield-halved (Khiên bảo mật)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Mô tả ngắn gọn:</label>
+                            <textarea id="pDesc" rows="2" class="form-control form-control-sm" placeholder="Kích hoạt đầy đủ tính năng VIP, an toàn tuyệt đối..." required></textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-sm btn-primary w-100 py-2 fw-bold"><i class="fa-solid fa-upload me-1"></i> XÁC NHẬN ĐĂNG BÁN</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-6 col-12">
+            <div class="admin-card">
+                <h5><i class="fa-solid fa-boxes-stacked me-2 text-primary"></i>Kho Sản Phẩm Hiển Thị</h5>
+                <div class="table-responsive" style="max-height: 520px; overflow-y: auto;">
+                    <table class="table table-bordered text-center m-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th class="text-start">Tên gói</th>
+                                <th>Giá</th>
+                                <th>Quản lý</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-12">
+            <div class="admin-card">
+                <h5><i class="fa-solid fa-ticket me-2 text-primary"></i>Phê Duyệt Thẻ Cào Nạp Tiền</h5>
+                <div class="table-responsive" style="max-height: 520px; overflow-y: auto;">
+                    <table class="table table-bordered text-center m-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th>Thành viên</th>
+                                <th>Chi tiết thẻ</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cardsTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="admin-card">
+                <h5><i class="fa-solid fa-users me-2 text-primary"></i>Quản Lý Cơ Sở Dữ Liệu Thành Viên (Sửa Pass & Ví Tiền)</h5>
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-bordered text-center m-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Email tài khoản (Tên đăng nhập)</th>
+                                <th>Mật khẩu giải mã thực tế</th>
+                                <th>Số dư ví hiện tại</th>
+                                <th>Hành động cập nhật</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyD_8idShoCkxrEqFkTY4HZYEkTINtHbw7I",
+  authDomain: "shopgame-b6cc6.firebaseapp.com",
+  databaseURL: "https://shopgame-b6cc6-default-rtdb.firebaseio.com",
+  projectId: "shopgame-b6cc6",
+  storageBucket: "shopgame-b6cc6.firebasestorage.app",
+  messagingSenderId: "597813903573",
+  appId: "1:597813903573:web:3d64f5f96ad87bad95225c",
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    let currentBase64Image = "";
+
+    window.onload = function() {
+        renderAdminProducts();
+        renderCards();
+        renderUsersList();
+    };
+
+    function previewAndCompressImage(input) {
+        const preview = document.getElementById('uploadPreview');
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width, height = img.height;
+                    if (width > height && width > 360) { height *= 360 / width; width = 360; } 
+                    else if (height > 360) { width *= 360 / height; height = 360; }
+                    canvas.width = width; canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    currentBase64Image = canvas.toDataURL('image/jpeg', 0.7);
+                    preview.src = currentBase64Image;
+                    preview.style.display = 'inline-block';
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "#"; preview.style.display = 'none'; currentBase64Image = "";
+        }
+    }
+
+    // 1. SẢN PHẨM
+    function renderAdminProducts() {
+        db.ref('sys_products').on('value', snap => {
+            const tbody = document.getElementById('adminProductsTable');
+            const data = snap.val();
+            if (!data) { tbody.innerHTML = `<tr><td colspan="4" class="text-muted py-4">Kho sản phẩm trống!</td></tr>`; return; }
+            
+            const products = Object.keys(data).map(k => ({ id: k, ...data[k] })).reverse();
+            tbody.innerHTML = products.map(p => `
+                <tr>
+                    <td><img src="${p.img}" style="width:40px; height:40px; object-fit:cover; border-radius:4px;"></td>
+                    <td class="text-start">
+                        <div class="fw-bold small text-dark">${p.name}</div>
+                        <div class="text-muted xsmall" style="font-size:0.75rem;">${p.desc}</div>
+                    </td>
+                    <td class="text-danger fw-bold small">${parseInt(p.price).toLocaleString()}đ</td>
+                    <td><button onclick="deleteProduct('${p.id}')" class="btn btn-sm btn-outline-danger py-0 px-2"><i class="fa-solid fa-trash"></i> Xóa</button></td>
+                </tr>
+            `).join('');
+        });
+    }
+
+    function handleCreateProduct(e) {
+        e.preventDefault();
+        if (!currentBase64Image) { alert("Vui lòng đợi ảnh xử lý xong!"); return; }
+        
+        const newProduct = {
+            name: document.getElementById('pName').value.trim(),
+            price: parseInt(document.getElementById('pPrice').value),
+            icon: document.getElementById('pIcon').value,
+            desc: document.getElementById('pDesc').value.trim(),
+            img: currentBase64Image
+        };
+
+        db.ref('sys_products').push(newProduct).then(() => {
+            alert("Đăng bán thành công!");
+            document.getElementById('productForm').reset();
+            document.getElementById('uploadPreview').style.display = 'none';
+            currentBase64Image = "";
+        });
+    }
+
+    function deleteProduct(id) {
+        if (confirm("Xóa sản phẩm này?")) db.ref('sys_products/' + id).remove();
+    }
+
+    // 2. THÀNH VIÊN
+    function renderUsersList() {
+        db.ref('sys_users').on('value', snap => {
+            const tbody = document.getElementById('usersTableBody');
+            const data = snap.val();
+            if (!data) { tbody.innerHTML = `<tr><td colspan="5" class="text-muted py-4">Chưa có thành viên.</td></tr>`; return; }
+            
+            const users = Object.keys(data).map(k => ({ key: k, ...data[k] }));
+            tbody.innerHTML = users.map((u, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td class="text-primary text-start fw-bold">${u.email}</td>
+                    <td><input type="text" id="editPass_${u.key}" class="form-control form-control-sm text-center w-75" value="${atob(u.pass)}"></td>
+                    <td><input type="number" id="editBalance_${u.key}" class="form-control form-control-sm text-center text-danger fw-bold w-75" value="${u.balance || 0}"></td>
+                    <td><button onclick="updateUserData('${u.key}', '${u.email}', ${u.balance || 0})" class="btn btn-sm btn-primary">Lưu lại</button></td>
+                </tr>
+            `).join('');
+        });
+    }
+
+    function updateUserData(userKey, email, oldBalance) {
+        const newPass = document.getElementById(`editPass_${userKey}`).value.trim();
+        const newBalance = parseInt(document.getElementById(`editBalance_${userKey}`).value) || 0;
+        
+        if (newBalance > oldBalance) {
+            db.ref('sys_cards').push({
+                userEmail: email, type: 'Admin cộng tiền', value: newBalance - oldBalance,
+                pin: 'N/A', seri: 'N/A', status: 'Thành công', time: new Date().toLocaleString()
+            });
+        }
+        db.ref('sys_users/' + userKey).update({ pass: btoa(newPass), balance: newBalance })
+        .then(() => alert(`Cập nhật tài khoản [${email}] thành công!`));
+    }
+
+    // 3. THẺ NẠP
+    function renderCards() {
+        db.ref('sys_cards').on('value', snap => {
+            const tbody = document.getElementById('cardsTableBody');
+            const data = snap.val();
+            if (!data) { tbody.innerHTML = `<tr><td colspan="3" class="text-muted py-4">Chưa có yêu cầu nạp thẻ.</td></tr>`; return; }
+            
+            const cards = Object.keys(data).map(k => ({ key: k, ...data[k] })).reverse();
+            tbody.innerHTML = cards.map(c => `
+                <tr>
+                    <td class="text-start small text-primary"><i class="fa-regular fa-envelope me-1"></i>${c.userEmail}<br><small class="text-muted">${c.time}</small></td>
+                    <td class="text-start small">
+                        <b>${c.type}</b> - <span class="text-danger fw-bold">${c.value.toLocaleString()}đ</span><br>
+                        PIN: <code>${c.pin}</code> | SERI: <code>${c.seri}</code><br>
+                        Trạng thái: <span class="${c.status === 'Thành công' ? 'text-success' : (c.status === 'Sai thẻ' ? 'text-danger' : 'text-warning')} fw-bold">${c.status}</span>
+                    </td>
+                    <td>
+                        ${c.status === 'Chờ duyệt' ? `
+                            <button onclick="processCard('${c.key}', '${c.userEmail}', ${c.value}, 'approve')" class="btn btn-success btn-xs mb-1 w-100">Duyệt</button>
+                            <button onclick="processCard('${c.key}', '${c.userEmail}', 0, 'reject')" class="btn btn-danger btn-xs w-100">Hủy</button>
+                        ` : `<span class="text-muted small">Đã xong</span>`}
+                    </td>
+                </tr>
+            `).join('');
+        });
+    }
+
+    function processCard(cardKey, userEmail, value, action) {
+        const newStatus = action === 'approve' ? 'Thành công' : 'Sai thẻ';
+        db.ref('sys_cards/' + cardKey).update({ status: newStatus }).then(() => {
+            if (action === 'approve') {
+                db.ref('sys_users').orderByChild('email').equalTo(userEmail).once('value', snap => {
+                    if(snap.exists()) {
+                        const userKey = Object.keys(snap.val())[0];
+                        const oldBal = snap.val()[userKey].balance || 0;
+                        db.ref('sys_users/' + userKey).update({ balance: oldBal + value });
+                        alert("Đã duyệt và cộng tiền!");
+                    }
+                });
+            } else { alert("Đã hủy thẻ!"); }
+        });
+    }
+
+    function logoutAdmin() {
+        if (confirm("Xác nhận đăng xuất?")) window.location.href = 'index.html';
+    }
+</script>
+
+</body>
+</html>

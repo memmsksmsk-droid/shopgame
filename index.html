@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập Hệ Thống</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body { 
+            background-color: #f4f6f9; 
+            color: #333333; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: Arial, sans-serif; 
+        }
+        .auth-card { 
+            background: #ffffff; 
+            border: 1px solid #ced4da; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            padding: 30px; 
+            width: 100%; 
+            max-width: 380px; 
+        }
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 20px;
+        }
+        .nav-tabs .nav-link {
+            color: #495057;
+            font-weight: 600;
+            border: none;
+            background: none;
+        }
+        .nav-tabs .nav-link.active {
+            color: #0d6efd;
+            border-bottom: 2px solid #0d6efd;
+        }
+        .input-group-text {
+            cursor: pointer;
+            background-color: #f8f9fa;
+        }
+
+        /* --- CSS CHO FAKE CAPTCHA --- */
+        .fake-captcha {
+            border: 1px solid #d3d3d3;
+            background: #f9f9f9;
+            border-radius: 4px;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .fake-captcha:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .captcha-checkbox {
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            border: 2px solid #c1c1c1;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: transparent;
+            transition: 0.2s;
+        }
+        .captcha-checkbox.checked {
+            color: #0f9d58; /* Màu xanh checkmark Google */
+            border-color: transparent;
+        }
+        .captcha-text { 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            font-size: 0.9rem; 
+            color: #222; 
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+    <div class="text-center mb-4">
+        <h3 class="fw-bold text-primary">login shop</h3>
+        <p class="text-muted small">Vui lòng đăng nhập hoặc đăng ký để tiếp tục</p>
+    </div>
+
+    <ul class="nav nav-tabs nav-justified" id="authTabs">
+        <li class="nav-item">
+            <button class="nav-link active" id="login-tab" onclick="switchTab('login')">Đăng Nhập</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="register-tab" onclick="switchTab('register')">Đăng Ký</button>
+        </li>
+    </ul>
+
+    <!-- FAKE CAPTCHA & ĐIỀU BẤT NGỜ (Dùng chung cho cả 2 Tab) -->
+    <div class="fake-captcha mb-3" onclick="verifyFakeCaptcha()">
+        <div class="d-flex align-items-center">
+            <div class="captcha-checkbox me-3" id="captchaBox"></div>
+            <span class="captcha-text">Tôi không phải là người máy</span>
+        </div>
+        <div class="captcha-logo text-center">
+            <i class="fa-brands fa-google text-primary d-block mb-1 fs-5"></i>
+            <small style="font-size: 0.55rem; color: #555; line-height: 1;">reCAPTCHA<br>Bảo mật</small>
+        </div>
+    </div>
+
+    <!-- HÌNH ẢNH MÈO SẼ HIỆN RA KHI XÁC THỰC XONG -->
+    <div id="catSurprise" class="text-center d-none mb-3 bounce-in">
+        <img src="logo.jpg" alt="Mèo Vô Tri" class="img-fluid rounded shadow-sm" style="max-height: 130px; border: 3px solid #0f9d58;">
+        <p class="text-success small fw-bold mt-2 mb-0"><i class="fa-solid fa-shield-cat me-1"></i> Trông bạn uy tín đấy! Đã xác thực thành công.</p>
+    </div>
+
+    <!-- FORM ĐĂNG NHẬP -->
+    <div id="loginFormSection">
+        <div class="mb-3">
+            <label class="form-label small fw-bold">Tài khoản / Email</label>
+            <input type="text" id="lEmail" class="form-control" placeholder="Nhập tài khoản của bạn...">
+        </div>
+        <div class="mb-3">
+            <label class="form-label small fw-bold">Mật khẩu</label>
+            <div class="input-group">
+                <input type="password" id="lPass" class="form-control" placeholder="Nhập mật khẩu...">
+                <span class="input-group-text" onclick="togglePassword('lPass', this)">
+                    <i class="fa-regular fa-eye"></i>
+                </span>
+            </div>
+        </div>
+        <div class="mb-3 form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMe">
+            <label class="form-check-label small text-muted" for="rememberMe">Ghi nhớ đăng nhập</label>
+        </div>
+        <button onclick="doLogin()" class="btn btn-primary w-100 py-2 fw-bold">ĐĂNG NHẬP</button>
+    </div>
+
+    <!-- FORM ĐĂNG KÝ -->
+    <div id="registerFormSection" class="d-none">
+        <div class="mb-3">
+            <label class="form-label small fw-bold">Địa chỉ Email mới</label>
+            <input type="email" id="rEmail" class="form-control" placeholder="example@gmail.com">
+        </div>
+        <div class="mb-3">
+            <label class="form-label small fw-bold">Mật khẩu bảo mật</label>
+            <div class="input-group">
+                <input type="password" id="rPass" class="form-control" placeholder="Tối thiểu 6 ký tự...">
+                <span class="input-group-text" onclick="togglePassword('rPass', this)">
+                    <i class="fa-regular fa-eye"></i>
+                </span>
+            </div>
+        </div>
+        <button onclick="doRegister()" class="btn btn-success w-100 py-2 fw-bold">TẠO TÀI KHOẢN MỚI</button>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+    // 1. CẤU HÌNH API FIREBASE CỦA BẠN
+    const firebaseConfig = {
+        apiKey: "AIzaSyD_8idShoCkxrEqFkTY4HZYEkTINtHbw7I",
+  authDomain: "shopgame-b6cc6.firebaseapp.com",
+  databaseURL: "https://shopgame-b6cc6-default-rtdb.firebaseio.com",
+  projectId: "shopgame-b6cc6",
+  storageBucket: "shopgame-b6cc6.firebasestorage.app",
+  messagingSenderId: "597813903573",
+  appId: "1:597813903573:web:3d64f5f96ad87bad95225c",
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    let isRobotVerified = false;
+
+    function verifyFakeCaptcha() {
+        if (isRobotVerified) return;
+        const box = document.getElementById('captchaBox');
+        const catSurprise = document.getElementById('catSurprise');
+        box.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-secondary fs-6"></i>';
+        setTimeout(() => {
+            box.innerHTML = '<i class="fa-solid fa-check fs-5"></i>';
+            box.classList.add('checked');
+            isRobotVerified = true;
+            catSurprise.classList.remove('d-none');
+        }, 1200);
+    }
+
+    function togglePassword(inputId, element) {
+        const input = document.getElementById(inputId);
+        const icon = element.querySelector('i');
+        if (input.type === "password") {
+            input.type = "text";
+            icon.className = "fa-regular fa-eye-slash text-secondary";
+        } else {
+            input.type = "password";
+            icon.className = "fa-regular fa-eye";
+        }
+    }
+
+    function switchTab(mode) {
+        document.getElementById('login-tab').classList.remove('active');
+        document.getElementById('register-tab').classList.remove('active');
+        if (mode === 'login') {
+            document.getElementById('login-tab').classList.add('active');
+            document.getElementById('loginFormSection').classList.remove('d-none');
+            document.getElementById('registerFormSection').classList.add('d-none');
+        } else {
+            document.getElementById('register-tab').classList.add('active');
+            document.getElementById('loginFormSection').classList.add('d-none');
+            document.getElementById('registerFormSection').classList.remove('d-none');
+        }
+    }
+
+    function doLogin() {
+        if (!isRobotVerified) { alert("Vui lòng xác minh không phải người máy!"); return; }
+        const email = document.getElementById('lEmail').value.trim();
+        const pass = document.getElementById('lPass').value;
+        const rememberMe = document.getElementById('rememberMe').checked;
+
+        if (!email || !pass) { alert("Vui lòng nhập đầy đủ!"); return; }
+        if (email === 'admin' && pass === 'admin') {
+            localStorage.setItem('currentUserEmail', 'Admin Tuấn Anh');
+            window.location.href = "admin.html"; return;
+        }
+
+        // Lấy dữ liệu từ Firebase
+        db.ref('sys_users').orderByChild('email').equalTo(email).once('value', snapshot => {
+            if (snapshot.exists()) {
+                const userData = Object.values(snapshot.val())[0];
+                if (userData.pass === btoa(pass) || userData.pass === pass) {
+                    localStorage.setItem('currentUserEmail', userData.email);
+                    if (rememberMe) localStorage.setItem('rememberedUserEmail', userData.email);
+                    else localStorage.removeItem('rememberedUserEmail');
+                    window.location.href = "home.html";
+                } else {
+                    alert("Mật khẩu không chính xác!");
+                }
+            } else {
+                alert("Tài khoản không tồn tại!");
+            }
+        });
+    }
+
+    function doRegister() {
+        if (!isRobotVerified) { alert("Vui lòng xác minh không phải người máy!"); return; }
+        const email = document.getElementById('rEmail').value.trim();
+        const pass = document.getElementById('rPass').value;
+
+        if (!email || !pass) { alert("Vui lòng điền đầy đủ!"); return; }
+        if (pass.length < 6) { alert("Mật khẩu tối thiểu 6 ký tự!"); return; }
+
+        db.ref('sys_users').orderByChild('email').equalTo(email).once('value', snapshot => {
+            if (snapshot.exists()) {
+                alert("Email này đã được đăng ký!");
+            } else {
+                db.ref('sys_users').push({
+                    email: email, pass: btoa(pass), balance: 0
+                }).then(() => {
+                    alert("Đăng ký thành công!");
+                    switchTab('login');
+                    document.getElementById('lEmail').value = email;
+                    document.getElementById('lPass').value = "";
+                });
+            }
+        });
+    }
+
+    window.onload = function() {
+        let savedEmail = localStorage.getItem('rememberedUserEmail');
+        if (savedEmail) {
+            document.getElementById('lEmail').value = savedEmail;
+            document.getElementById('rememberMe').checked = true;
+        }
+    };
+</script>
+
+</body>
+</html>
