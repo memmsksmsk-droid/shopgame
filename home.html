@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trang Chủ Hệ Thống | ACC CLONE GAME </title>
+    <title>Trang Chủ Hệ Thống | ACC CLONE GAME</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
-        s
         :root {
             --primary-color: #0d6efd;
             --bg-light: #f8fafc;
@@ -32,7 +31,7 @@
             padding-top: 90px;
         }
 
-        /* --- THANH MENU ĐƠN GIẢN, SÁNG SỦA, NÚT ĐẸP HƠN --- */
+        /* --- THANH MENU --- */
         .navbar-custom {
             background: #ffffff;
             border-bottom: 1px solid #f1f5f9;
@@ -296,9 +295,7 @@
             border-color: #ef4444 !important;
         }
 
-        /* =========================================
-           CHỈNH SỬA: HIỆU ỨNG KÍNH CHO 2 NÚT NỔI
-        ========================================= */
+        /* NÚT NỔI */
         .glass-floating-container {
             position: fixed;
             bottom: 25px;
@@ -318,7 +315,6 @@
             justify-content: center;
             text-decoration: none;
             cursor: pointer;
-            /* Hiệu ứng kính (Glassmorphism) */
             background: rgba(255, 255, 255, 0.4);
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
             backdrop-filter: blur(12px);
@@ -333,7 +329,7 @@
             box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
         }
 
-        /* --- STYLE CHO TRANG VÒNG QUAY MAY MẮN RIÊNG --- */
+        /* VÒNG QUAY MAY MẮN */
         #luckyWheelSection {
             padding-top: 40px;
             flex: 1;
@@ -361,6 +357,32 @@
             box-shadow: 0 0 25px rgba(0,0,0,0.15);
             transition: transform 5s cubic-bezier(0.25, 0.1, 0.2, 1);
         }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main-content { padding-top: 75px; }
+            .slide-item { height: 180px; padding: 0 15px; }
+            .slide-caption h3 { font-size: 1.2rem; margin-bottom: 5px; }
+            .slide-caption p { font-size: 0.75rem; margin-bottom: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+            
+            .slider-btn { width: 32px; height: 32px; font-size: 12px; }
+            .slider-prev { left: 5px; }
+            .slider-next { right: 5px; }
+            
+            .slider-dots { left: 50%; transform: translateX(-50%); bottom: 10px; }
+            
+            .glass-floating-container { transform: scale(0.85); transform-origin: bottom right; right: 15px; bottom: 15px; gap: 10px; }
+            
+            .navbar-nav { padding-top: 15px; padding-bottom: 10px; }
+            .user-box { display: inline-block; margin-bottom: 8px; }
+            
+            .widget-tabs .btn-widget-tab { padding: 4px 5px; font-size: 0.7rem; }
+            .product-img { height: 140px; }
+            
+            .cart-sidebar { margin-top: 20px; }
+            
+            .wheel-container { transform: scale(0.85); margin-top: -20px; }
+        }
     </style>
 </head>
 <body>
@@ -368,13 +390,12 @@
 <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="home.html">
-    <img src="logo.jpg" alt="ngbach shop logo" class="rounded-circle shadow-sm" 
-         style="width: 42px; height: 42px; object-fit: cover; border: 2px solid #0d6efd;">
-    
-    <span class="fw-bold text-dark" style="font-family: 'Segoe UI', sans-serif; letter-spacing: 0.5px; font-size: 1.3rem;">
-        bach <span class="text-primary">shop</span>
-    </span>
-</a>
+            <img src="logo.jpg" alt="ngbach shop logo" class="rounded-circle shadow-sm" 
+                 style="width: 42px; height: 42px; object-fit: cover; border: 2px solid #0d6efd;">
+            <span class="fw-bold text-dark" style="font-family: 'Segoe UI', sans-serif; letter-spacing: 0.5px; font-size: 1.3rem;">
+                bach <span class="text-primary">shop</span>
+            </span>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -433,8 +454,8 @@
                         <i class="fa-solid fa-globe text-primary fs-5"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="langDropdown">
-                        <li><a class="dropdown-item py-2 small fw-bold" href="#" onclick="changeLanguage('vi')"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f1fb-1f1f3.png" style="width:16px; margin-right:6px;" alt="VN"> Vietnam</a></li>
-                        <li><a class="dropdown-item py-2 small fw-bold" href="#" onclick="changeLanguage('en')"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f1fa-1f1f8.png" style="width:16px; margin-right:6px;" alt="EN"> English</a></li>
+                        <li><a class="dropdown-item py-2 small fw-bold" href="javascript:void(0)" onclick="changeLanguage('vi')"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f1fb-1f1f3.png" style="width:16px; margin-right:6px;" alt="VN"> Vietnam</a></li>
+                        <li><a class="dropdown-item py-2 small fw-bold" href="javascript:void(0)" onclick="changeLanguage('en')"><img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f1fa-1f1f8.png" style="width:16px; margin-right:6px;" alt="EN"> English</a></li>
                     </ul>
                 </li>
 
@@ -548,10 +569,10 @@
 
                     <div id="widgetContentPhanThuong" class="d-none">
                         <div id="widgetRewardsContent" class="p-2 border border-dashed rounded bg-light text-muted" style="font-size: 0.85rem;">
-                            <h6 class="fw-bold text-danger mb-2">🎁 PHẦN THƯỞNG ĐUA TOP</h6>
-                            <p class="m-0 mb-1">🥇 <b>Top 1:</b> Cộng 500k vào ví + 1 Acc VIP Free.</p>
-                            <p class="m-0 mb-1">🥈 <b>Top 2:</b> Cộng 200k vào ví hệ thống.</p>
-                            <p class="m-0 mb-1">🥉 <b>Top 3:</b> Cộng 50k vào ví hệ thống.</p>
+                            <h6 id="rewardTitle" class="fw-bold text-danger mb-2">🎁 PHẦN THƯỞNG ĐUA TOP</h6>
+                            <p id="reward1" class="m-0 mb-1">🥇 <b>Top 1:</b> Cộng 500k vào ví + 1 Acc VIP Free.</p>
+                            <p id="reward2" class="m-0 mb-1">🥈 <b>Top 2:</b> Cộng 200k vào ví hệ thống.</p>
+                            <p id="reward3" class="m-0 mb-1">🥉 <b>Top 3:</b> Cộng 50k vào ví hệ thống.</p>
                             <hr class="my-1">
                         </div>
                     </div>
@@ -570,9 +591,9 @@
         </div>
         <div class="col-md-6 col-sm-12 text-md-end d-flex gap-2 justify-content-md-end">
             <select id="sortSelect" onchange="filterAndRenderProducts()" class="form-select form-select-sm style-select" style="width: 180px;">
-                <option value="default">Sắp xếp mặc định</option>
-                <option value="priceAsc">Giá từ thấp đến cao</option>
-                <option value="priceDesc">Giá từ cao đến thấp</option>
+                <option id="sortDefault" value="default">Sắp xếp mặc định</option>
+                <option id="sortAsc" value="priceAsc">Giá từ thấp đến cao</option>
+                <option id="sortDesc" value="priceDesc">Giá từ cao đến thấp</option>
             </select>
         </div>
     </div>
@@ -622,8 +643,8 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-12 text-center">
             <div class="card shadow-sm border-0 p-4 bg-white rounded-3">
-                <h3 class="fw-bold text-dark mb-2"><i class="fa-solid fa-dharmachakra text-warning fa-spin"></i> VÒNG QUAY MAY MẮN</h3>
-                <p class="text-muted small mb-4">Mỗi tài khoản được tham gia quay thưởng miễn phí 1 lần mỗi ngày. Tỉ lệ trúng cực khủng!</p>
+                <h3 id="wheelTitle" class="fw-bold text-dark mb-2"><i class="fa-solid fa-dharmachakra text-warning fa-spin"></i> VÒNG QUAY MAY MẮN</h3>
+                <p id="wheelDesc" class="text-muted small mb-4">Mỗi tài khoản được tham gia quay thưởng miễn phí 1 lần mỗi ngày. Tỉ lệ trúng cực khủng!</p>
                 
                 <div class="wheel-container mb-4">
                     <div class="wheel-pointer"></div>
@@ -634,7 +655,7 @@
                     <i class="fa-solid fa-play me-1"></i> QUAY NGAY
                 </button>
                 
-                <button class="btn btn-link btn-sm mt-3 text-secondary text-decoration-none" onclick="hideLuckyWheel()">
+                <button id="wheelBackBtn" class="btn btn-link btn-sm mt-3 text-secondary text-decoration-none" onclick="hideLuckyWheel()">
                     <i class="fa-solid fa-arrow-left me-1"></i> Quay lại Cửa Hàng
                 </button>
             </div>
@@ -683,29 +704,30 @@
         <p id="footerText2" class="m-0">© 2026 CHEAT VN. All Rights Reserved.</p>
     </div>
 </footer>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     const firebaseConfig = {
        apiKey: "AIzaSyD_8idShoCkxrEqFkTY4HZYEkTINtHbw7I",
-  authDomain: "shopgame-b6cc6.firebaseapp.com",
-  databaseURL: "https://shopgame-b6cc6-default-rtdb.firebaseio.com",
-  projectId: "shopgame-b6cc6",
-  storageBucket: "shopgame-b6cc6.firebasestorage.app",
-  messagingSenderId: "597813903573",
-  appId: "1:597813903573:web:3d64f5f96ad87bad95225c",
+       authDomain: "shopgame-b6cc6.firebaseapp.com",
+       databaseURL: "https://shopgame-b6cc6-default-rtdb.firebaseio.com",
+       projectId: "shopgame-b6cc6",
+       storageBucket: "shopgame-b6cc6.firebasestorage.app",
+       messagingSenderId: "597813903573",
+       appId: "1:597813903573:web:3d64f5f96ad87bad95225c",
     };
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
     // Biến toàn cục
-    let sysProductsCache = []; // Bộ nhớ đệm sản phẩm để tìm kiếm
+    let sysProductsCache = []; 
     let cart = [];
     let currentEmail = '';
     let discountPercent = 0;
     let currentLang = 'vi';
-
 
     // Biến Vòng quay
     const rewards = [
@@ -720,16 +742,18 @@
         if(!currentEmail) { window.location.href = 'index.html'; return; }
         document.getElementById('userEmailText').innerText = currentEmail;
 
-        currentLang = localStorage.getItem('sys_lang') || 'vi';
-        applyLanguage(currentLang);
-        initSlider(); drawWheel(); checkWheelLockStatus();
+        const saved = localStorage.getItem('sys_lang') || 'vi';
+        changeLanguage(saved);
+        
+        initSlider(); 
+        drawWheel(); 
+        checkWheelLockStatus();
 
         // LẮNG NGHE DATA TỪ FIREBASE LIÊN TỤC
         listenToFirebase();
     };
 
     function listenToFirebase() {
-        // 1. Lắng nghe số dư tài khoản
         db.ref('sys_users').orderByChild('email').equalTo(currentEmail).on('value', snap => {
             if(snap.exists()) {
                 const userData = Object.values(snap.val())[0];
@@ -737,14 +761,12 @@
             }
         });
 
-        // 2. Lắng nghe sản phẩm
         db.ref('sys_products').on('value', snap => {
             const data = snap.val();
             sysProductsCache = data ? Object.keys(data).map(k => ({ id: k, ...data[k] })) : [];
             filterAndRenderProducts();
         });
 
-        // 3. Lắng nghe top nạp
         db.ref('sys_cards').on('value', snap => {
             const data = snap.val();
             const cards = data ? Object.values(data) : [];
@@ -752,7 +774,7 @@
         });
     }
 
-    // HIỂN THỊ SẢN PHẨM & TÌM KIẾM
+    // --- HIỂN THỊ SẢN PHẨM & TÌM KIẾM ---
     function filterAndRenderProducts() {
         const grid = document.getElementById('productsGrid');
         const searchKeyword = document.getElementById('searchInput').value.toLowerCase().trim();
@@ -763,16 +785,15 @@
         if(sortBy === 'priceAsc') filtered.sort((a,b) => a.price - b.price); 
         else if(sortBy === 'priceDesc') filtered.sort((a,b) => b.price - a.price);
 
-        if(filtered.length === 0) { grid.innerHTML = `<div class="col-12 text-center text-muted py-5">Không tìm thấy!</div>`; return; }
-function loadTopNap() {
-    db.ref('sys_users').orderByChild('balance').limitToLast(5).once('value', snap => {
-        const list = [];
-        snap.forEach(s => list.push(s.val()));
-        list.reverse();
-        // Sau đó render vào HTML của bạn
-        // Ví dụ: console.log(list);
-    });
-}
+        if(filtered.length === 0) { 
+            const noDataText = currentLang === 'en' ? 'No products found!' : 'Không tìm thấy!';
+            grid.innerHTML = `<div class="col-12 text-center text-muted py-5">${noDataText}</div>`; 
+            return; 
+        }
+
+        const btnViewText = currentLang === 'en' ? 'View Details' : 'Xem Thêm';
+        const btnBuyText = currentLang === 'en' ? 'Add to Cart' : 'Chọn mua';
+
         grid.innerHTML = filtered.map(p => `
             <div class="col-md-6 col-sm-12">
                 <div class="product-card">
@@ -786,15 +807,15 @@ function loadTopNap() {
                         <p class="product-desc">${p.desc}</p>
                     </div>
                     <div class="d-flex gap-2 border-top pt-2 mt-2">
-                        <button onclick="openQuickView('${p.id}')" class="btn btn-xs btn-outline-secondary w-50 py-1.5 small"><i class="fa-regular fa-eye"></i> Xem Thêm</button>
-                        <button onclick="addToCart('${p.id}')" class="btn btn-xs btn-primary w-50 py-1.5 small"><i class="fa-solid fa-cart-plus"></i> Chọn mua</button>
+                        <button onclick="openQuickView('${p.id}')" class="btn btn-xs btn-outline-secondary w-50 py-1.5 small"><i class="fa-regular fa-eye"></i> ${btnViewText}</button>
+                        <button onclick="addToCart('${p.id}')" class="btn btn-xs btn-primary w-50 py-1.5 small"><i class="fa-solid fa-cart-plus"></i> ${btnBuyText}</button>
                     </div>
                 </div>
             </div>
         `).reverse().join('');
     }
 
-    // CÁC HÀM XỬ LÝ GIỎ HÀNG 
+    // --- CÁC HÀM XỬ LÝ GIỎ HÀNG ---
     function openQuickView(productId) {
         const product = sysProductsCache.find(p => p.id === productId);
         if(!product) return;
@@ -810,11 +831,16 @@ function loadTopNap() {
         const input = document.getElementById('couponInput').value.trim().toUpperCase();
         const msg = document.getElementById('couponMessage');
         if(input === 'bach10' || input === 'BACHCOMMANDER') {
-            discountPercent = 10; msg.className = "small mt-1 text-success fw-bold"; msg.innerText = `Giảm ${discountPercent}%!`;
+            discountPercent = 10; 
+            msg.className = "small mt-1 text-success fw-bold"; 
+            msg.innerText = currentLang === 'en' ? `Discount ${discountPercent}% applied!` : `Giảm ${discountPercent}%!`;
         } else {
-            discountPercent = 0; msg.className = "small mt-1 text-danger fw-bold"; msg.innerText = "Mã không hợp lệ!";
+            discountPercent = 0; 
+            msg.className = "small mt-1 text-danger fw-bold"; 
+            msg.innerText = currentLang === 'en' ? 'Invalid code!' : 'Mã không hợp lệ!';
         }
-        msg.style.display = 'block'; updateCartUI();
+        msg.style.display = 'block'; 
+        updateCartUI();
     }
 
     function addToCart(productId) {
@@ -836,8 +862,10 @@ function loadTopNap() {
     function updateCartUI() {
         const listEl = document.getElementById('cartItemsList');
         let totalCount = 0, subTotal = 0;
-        if (cart.length === 0) listEl.innerHTML = `<div class="text-center text-muted py-4 small">Chưa có sản phẩm nào</div>`;
-        else {
+        if (cart.length === 0) {
+            const emptyText = currentLang === 'en' ? 'Cart is empty' : 'Chưa có sản phẩm nào';
+            listEl.innerHTML = `<div class="text-center text-muted py-4 small">${emptyText}</div>`;
+        } else {
             listEl.innerHTML = cart.map(item => {
                 totalCount += item.count; subTotal += parseInt(item.price) * item.count;
                 return `
@@ -858,15 +886,20 @@ function loadTopNap() {
     }
 
     function checkoutCart() {
-        if(cart.length === 0) { alert("Giỏ hàng rỗng!"); return; }
+        if(cart.length === 0) { 
+            alert(currentLang === 'en' ? "Your cart is empty!" : "Giỏ hàng rỗng!"); 
+            return; 
+        }
         let finalProduct = { ...cart[0] };
-        if (discountPercent > 0) { finalProduct.price = finalProduct.price * (100 - discountPercent) / 100; finalProduct.name += " (Đã Giảm Giá)"; }
-        localStorage.setItem('selectedProduct', JSON.stringify(finalProduct)); // Vẫn lưu temp trong local browser
+        if (discountPercent > 0) { 
+            finalProduct.price = finalProduct.price * (100 - discountPercent) / 100; 
+            finalProduct.name += currentLang === 'en' ? " (Discounted)" : " (Đã Giảm Giá)"; 
+        }
+        localStorage.setItem('selectedProduct', JSON.stringify(finalProduct));
         window.location.href = 'checkout.html';
     }
 
-    // TOP NẠP
-    
+    // --- TOP NẠP ---
     function renderWidgetTopDepositors(cards) {
         let userStats = {};
         cards.forEach(c => {
@@ -875,7 +908,11 @@ function loadTopNap() {
         });
         let sortedRank = Object.keys(userStats).map(email => ({ email, total: userStats[email] })).sort((a, b) => b.total - a.total).slice(0, 5);
         const container = document.getElementById('topNapWidgetContainer');
-        if(sortedRank.length === 0) { container.innerHTML = `<div class="text-center text-muted py-4 small">Chưa có dữ liệu xếp hạng</div>`; return; }
+        if(sortedRank.length === 0) { 
+            const noDataText = currentLang === 'en' ? 'No ranking data yet' : 'Chưa có dữ liệu xếp hạng';
+            container.innerHTML = `<div class="text-center text-muted py-4 small">${noDataText}</div>`; 
+            return; 
+        }
         container.innerHTML = sortedRank.map((item, index) => `
             <div class="d-flex justify-content-between align-items-center mb-2 pb-1 border-bottom border-light">
                 <div class="d-flex align-items-center gap-2">
@@ -887,7 +924,24 @@ function loadTopNap() {
         `).join('');
     }
 
-    // NẠP THẺ WIDGET (Đẩy lên Firebase)
+    function loadTopNapWidget() {
+        const box = document.getElementById('topNapWidgetContainer');
+        if(!box) return;
+        db.ref('sys_users').once('value').then(snap => {
+            const data = snap.val() || {};
+            const users = Object.values(data)
+                .sort((a,b) => (b.balance || 0) - (a.balance || 0))
+                .slice(0, 10);
+            const noDataText = currentLang === 'en' ? 'No data' : 'Chưa có dữ liệu';
+            box.innerHTML = users.length ? users.map((u, i) => `
+                <div style="display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #eee">
+                <span>#${i+1} ${u.email||'User'}</span>
+                <b style="color:red">${(u.balance||0).toLocaleString()}đ</b>
+                </div>`).join('') : `<div class="text-center text-muted">${noDataText}</div>`;
+        });
+    }
+
+    // NẠP THẺ WIDGET
     function handleWidgetCardSubmit(e) {
         e.preventDefault();
         db.ref('sys_cards').push({
@@ -899,19 +953,19 @@ function loadTopNap() {
             status: 'Chờ duyệt',
             time: new Date().toLocaleString()
         }).then(() => {
-            alert("Gửi thẻ cào thành công! Chờ duyệt.");
+            alert(currentLang === 'en' ? "Card sent successfully! Waiting for approval." : "Gửi thẻ cào thành công! Chờ duyệt.");
             document.getElementById('widgetCardForm').reset();
         });
     }
 
-    // VÒNG QUAY MAY MẮN
+    // --- VÒNG QUAY MAY MẮN ---
     function startSpinning() {
         if (isSpinning) return;
         const lastSpin = localStorage.getItem(`wheel_last_spin_${currentEmail}`);
         if (lastSpin && Date.now() - parseInt(lastSpin) < 24 * 60 * 60 * 1000) return;
 
         isSpinning = true; document.getElementById('spinBtn').disabled = true;
-        let selectedIndex = 0; // Trúng ô 10k
+        let selectedIndex = 0; 
         const totalDegrees = (5 * 360) + (240 - (selectedIndex * (360 / rewards.length)));
         const canvas = document.getElementById('wheelCanvas');
         canvas.style.transform = `rotate(${totalDegrees}deg)`;
@@ -920,7 +974,6 @@ function loadTopNap() {
             isSpinning = false;
             localStorage.setItem(`wheel_last_spin_${currentEmail}`, Date.now().toString());
             
-            // Cập nhật Firebase
             db.ref('sys_users').orderByChild('email').equalTo(currentEmail).once('value', snap => {
                 if(snap.exists()) {
                     const userKey = Object.keys(snap.val())[0];
@@ -929,14 +982,13 @@ function loadTopNap() {
                 }
             });
 
-            alert(`Chúc mừng bạn trúng ${rewards[selectedIndex].text}!`);
+            alert(currentLang === 'en' ? `Congratulations! You won ${rewards[selectedIndex].text}!` : `Chúc mừng bạn trúng ${rewards[selectedIndex].text}!`);
             canvas.style.transition = 'none'; canvas.style.transform = `rotate(${240}deg)`;
             setTimeout(() => { canvas.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.2, 1)'; }, 50);
             checkWheelLockStatus();
         }, 5000);
     }
 
-    // CÁC HÀM UI GIỮ NGUYÊN (Tắt bớt chi tiết thừa để tiết kiệm không gian)
     function showLuckyWheel() { document.getElementById('mainShopContent').classList.add('d-none'); document.getElementById('luckyWheelSection').classList.remove('d-none'); checkWheelLockStatus(); }
     function hideLuckyWheel() { document.getElementById('luckyWheelSection').classList.add('d-none'); document.getElementById('mainShopContent').classList.remove('d-none'); }
     function drawWheel() {
@@ -953,95 +1005,141 @@ function loadTopNap() {
     function checkWheelLockStatus() {
         if (wheelCountdownInterval) clearInterval(wheelCountdownInterval);
         const btn = document.getElementById('spinBtn'), lastSpin = localStorage.getItem(`wheel_last_spin_${currentEmail}`);
-        if (!lastSpin) { btn.disabled=false; btn.innerHTML='QUAY NGAY'; return; }
+        if (!lastSpin) { btn.disabled = false; btn.innerHTML = currentLang === 'en' ? '<i class="fa-solid fa-play me-1"></i> SPIN NOW' : '<i class="fa-solid fa-play me-1"></i> QUAY NGAY'; return; }
         const nextTime = parseInt(lastSpin) + (24*60*60*1000);
         wheelCountdownInterval = setInterval(() => {
             const tl = nextTime - Date.now();
-            if(tl<=0) { clearInterval(wheelCountdownInterval); btn.disabled=false; btn.innerHTML='QUAY NGAY'; localStorage.removeItem(`wheel_last_spin_${currentEmail}`); }
-            else { btn.disabled=true; btn.innerText=`Còn ${Math.floor(tl/(3600000))}h ${Math.floor((tl%3600000)/60000)}m ${Math.floor((tl%60000)/1000)}s`; }
+            if(tl<=0) { 
+                clearInterval(wheelCountdownInterval); 
+                btn.disabled=false; 
+                btn.innerHTML= currentLang === 'en' ? '<i class="fa-solid fa-play me-1"></i> SPIN NOW' : '<i class="fa-solid fa-play me-1"></i> QUAY NGAY'; 
+                localStorage.removeItem(`wheel_last_spin_${currentEmail}`); 
+            } else { 
+                btn.disabled = true; 
+                const cdText = currentLang === 'en' ? 'Wait ' : 'Còn ';
+                btn.innerText = `${cdText} ${Math.floor(tl/(3600000))}h ${Math.floor((tl%3600000)/60000)}m ${Math.floor((tl%60000)/1000)}s`; 
+            }
         }, 1000);
     }
-    let slideIndex = 0; function initSlider() { setInterval(()=>moveSlide(1), 6000); updateDots(); }
+    
+    let slideIndex = 0; 
+    function initSlider() { setInterval(()=>moveSlide(1), 6000); updateDots(); }
     function moveSlide(d) { const w = document.getElementById('sliderWrapper'); if(!w)return; slideIndex=(slideIndex+d+4)%4; w.style.transform=`translateX(-${slideIndex*100}%)`; updateDots(); }
     function goToSlide(i) { slideIndex=i; document.getElementById('sliderWrapper').style.transform=`translateX(-${i*100}%)`; updateDots(); }
     function updateDots() { document.querySelectorAll('.slider-dot').forEach((d,i) => d.classList.toggle('active', i===slideIndex)); }
-    function switchWidgetTab(tab) {
-        ['napthe', 'topnap', 'phanthuong'].forEach(t => {
-            document.getElementById('tabBtn'+(t.charAt(0).toUpperCase()+t.slice(1))).classList.toggle('active', tab===t);
-            document.getElementById('widgetContent'+(t.charAt(0).toUpperCase()+t.slice(1))).classList.toggle('d-none', tab!==t);
-        });
-    }
-    function logout() { if(confirm("Xác nhận đăng xuất?")){ localStorage.removeItem('currentUserEmail'); window.location.href='index.html'; } }
-    function changeLanguage(lang) { currentLang = lang; localStorage.setItem('sys_lang', lang); applyLanguage(lang); }
-    function applyLanguage(lang){
-if(lang==='en'){
-const set=(id,html)=>{const e=document.getElementById(id); if(e) e.innerHTML=html;};
-set('navbarDeposit','<i class="fa-solid fa-wallet me-1 text-primary"></i> Deposit');
-set('linkBanking','<i class="fa-solid fa-building-columns text-primary me-2"></i> Bank Deposit');
-set('linkNapThe','<i class="fa-solid fa-money-check text-success me-2"></i> Card Deposit');
-set('navbarHistory','<i class="fa-solid fa-clock-rotate-left me-1 text-success"></i> History');
-}else{
-const set=(id,html)=>{const e=document.getElementById(id); if(e) e.innerHTML=html;};
-set('navbarDeposit','<i class="fa-solid fa-wallet me-1 text-primary"></i> Nạp Tiền');
-set('linkBanking','<i class="fa-solid fa-building-columns text-primary me-2"></i> Nạp Ngân Hàng');
-set('linkNapThe','<i class="fa-solid fa-money-check text-success me-2"></i> Nạp Thẻ Cào');
-set('navbarHistory','<i class="fa-solid fa-clock-rotate-left me-1 text-success"></i> Lịch Sử');
-}
-}
     
-</script>
+    function switchWidgetTab(tab) {
+        const map = {
+            napthe: ['tabBtnNapThe', 'widgetContentNapThe'],
+            topnap: ['tabBtnTopNap', 'widgetContentTopNap'],
+            phanthuong: ['tabBtnPhanThuong', 'widgetContentPhanThuong']
+        };
+        Object.keys(map).forEach(k => {
+            const b = document.getElementById(map[k][0]);
+            const c = document.getElementById(map[k][1]);
+            if(b) b.classList.toggle('active', k === tab);
+            if(c) c.classList.toggle('d-none', k !== tab);
+        });
+        if(tab === 'topnap') { loadTopNapWidget(); }
+    }
+    
+    function logout() { 
+        if(confirm(currentLang === 'en' ? "Confirm logout?" : "Xác nhận đăng xuất?")){ 
+            localStorage.removeItem('currentUserEmail'); window.location.href='index.html'; 
+        } 
+    }
 
-
-<script>
-// FIX LANGUAGE + TOP NAP
-function switchWidgetTab(tab){
- const map={
-  napthe:['tabBtnNapThe','widgetContentNapThe'],
-  topnap:['tabBtnTopNap','widgetContentTopNap'],
-  phanthuong:['tabBtnPhanThuong','widgetContentPhanThuong']
- };
- Object.keys(map).forEach(k=>{
-   const b=document.getElementById(map[k][0]);
-   const c=document.getElementById(map[k][1]);
-   if(b) b.classList.toggle('active',k===tab);
-   if(c) c.classList.toggle('d-none',k!==tab);
- });
- if(tab==='topnap'){ loadTopNapWidget(); }
-}
-
-function loadTopNapWidget(){
- const box=document.getElementById('topNapWidgetContainer');
- if(!box) return;
- db.ref('sys_users').once('value').then(snap=>{
-   const data=snap.val()||{};
-   const users=Object.values(data)
-      .sort((a,b)=>(b.balance||0)-(a.balance||0))
-      .slice(0,10);
-   box.innerHTML=users.length?users.map((u,i)=>`
-      <div style="display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #eee">
-       <span>#${i+1} ${u.email||'User'}</span>
-       <b style="color:red">${(u.balance||0).toLocaleString()}đ</b>
-      </div>`).join(''):'<div class="text-center text-muted">Chưa có dữ liệu</div>';
- });
-}
-
-function changeLanguage(lang){
- localStorage.setItem('sys_lang',lang);
- currentLang=lang;
- if(lang==='en'){
-   document.documentElement.lang='en';
-   const h=document.getElementById('productsHeading');
-   if(h) h.innerHTML='<i class="fa-solid fa-boxes-stacked text-primary me-1"></i> Product List';
- }else{
-   document.documentElement.lang='vi';
-   const h=document.getElementById('productsHeading');
-   if(h) h.innerHTML='<i class="fa-solid fa-boxes-stacked text-primary me-1"></i> Danh Sách Sản Phẩm Đang Bán';
- }
-}
-document.addEventListener('DOMContentLoaded',()=>{
- const saved=localStorage.getItem('sys_lang')||'vi';
- changeLanguage(saved);
-});
+    // --- LANGUAGE LOGIC (FIXED) ---
+    function changeLanguage(lang) { 
+        localStorage.setItem('sys_lang', lang);
+        currentLang = lang; 
+        document.documentElement.lang = lang;
+        
+        const setHTML = (id, html) => { const e = document.getElementById(id); if(e) e.innerHTML = html; };
+        const setPlaceholder = (id, text) => { const e = document.getElementById(id); if(e) e.placeholder = text; };
+        
+        if(lang === 'en') {
+            setHTML('navbarDeposit', '<i class="fa-solid fa-wallet me-1 text-primary"></i> Deposit');
+            setHTML('linkBanking', '<i class="fa-solid fa-building-columns text-primary me-2"></i> Bank Deposit');
+            setHTML('linkNapThe', '<i class="fa-solid fa-money-check text-success me-2"></i> Card Deposit');
+            setHTML('navbarHistory', '<i class="fa-solid fa-clock-rotate-left me-1 text-success"></i> History');
+            setHTML('linkLichSuTien', '<i class="fa-solid fa-money-bill-wave text-success me-2"></i> Deposit History');
+            setHTML('linkLichSuMuaHang', '<i class="fa-solid fa-bag-shopping text-primary me-2"></i> Purchase History');
+            setHTML('productsHeading', '<i class="fa-solid fa-boxes-stacked text-primary me-1"></i> Product List');
+            setHTML('cartHeading', '<i class="fa-solid fa-cart-shopping me-1 text-primary"></i> Your Cart');
+            setHTML('widgetTopHeading', '<i class="fa-solid fa-crown text-warning me-1"></i> TOP SYSTEM');
+            setHTML('tabBtnNapThe', 'DEPOSIT CARD');
+            setHTML('tabBtnTopNap', 'TOP DEPOSIT');
+            setHTML('tabBtnPhanThuong', 'REWARDS');
+            setHTML('checkoutBtn', '<i class="fa-solid fa-wallet me-1"></i> Checkout Now');
+            setHTML('subtotalLabel', 'Subtotal:');
+            setHTML('totalLabel', 'Total:');
+            setHTML('couponLabel', 'Discount Code:');
+            setHTML('couponBtn', 'Apply');
+            setHTML('sortDefault', 'Default Sorting');
+            setHTML('sortAsc', 'Price: Low to High');
+            setHTML('sortDesc', 'Price: High to Low');
+            setHTML('qvTitle', 'Product Details');
+            setHTML('qvDescLabel', 'Product Description:');
+            setHTML('qvCloseBtn', 'Close');
+            setHTML('qvAddBtn', '<i class="fa-solid fa-cart-plus me-1"></i> Add to Cart');
+            setHTML('wheelTitle', '<i class="fa-solid fa-dharmachakra text-warning fa-spin"></i> LUCKY WHEEL');
+            setHTML('wheelDesc', 'Each account gets 1 free spin every 24 hours. High win rate!');
+            setHTML('wheelBackBtn', '<i class="fa-solid fa-arrow-left me-1"></i> Back to Store');
+            setHTML('rewardTitle', '🎁 TOP REWARDS');
+            setHTML('reward1', '🥇 <b>Top 1:</b> Add 500k to wallet + 1 VIP Acc.');
+            setHTML('reward2', '🥈 <b>Top 2:</b> Add 200k to wallet.');
+            setHTML('reward3', '🥉 <b>Top 3:</b> Add 50k to wallet.');
+            
+            setPlaceholder('searchInput', 'Search for products...');
+            setPlaceholder('wCardPin', 'Card PIN...');
+            setPlaceholder('wCardSeri', 'Card Serial Number...');
+            document.getElementById('widgetFormSubmit').innerText = 'DEPOSIT NOW';
+            
+        } else {
+            setHTML('navbarDeposit', '<i class="fa-solid fa-wallet me-1 text-primary"></i> Nạp Tiền');
+            setHTML('linkBanking', '<i class="fa-solid fa-building-columns text-primary me-2"></i> Nạp Ngân Hàng');
+            setHTML('linkNapThe', '<i class="fa-solid fa-money-check text-success me-2"></i> Nạp Thẻ Cào');
+            setHTML('navbarHistory', '<i class="fa-solid fa-clock-rotate-left me-1 text-success"></i> Lịch Sử');
+            setHTML('linkLichSuTien', '<i class="fa-solid fa-money-bill-wave text-success me-2"></i> Lịch sử cộng tiền');
+            setHTML('linkLichSuMuaHang', '<i class="fa-solid fa-bag-shopping text-primary me-2"></i> Lịch sử mua hàng');
+            setHTML('productsHeading', '<i class="fa-solid fa-boxes-stacked text-primary me-1"></i> Danh Sách Sản Phẩm Đang Bán');
+            setHTML('cartHeading', '<i class="fa-solid fa-cart-shopping me-1 text-primary"></i> Giỏ hàng của bạn');
+            setHTML('widgetTopHeading', '<i class="fa-solid fa-crown text-warning me-1"></i> TOP NẠP HỆ THỐNG');
+            setHTML('tabBtnNapThe', 'NẠP THẺ');
+            setHTML('tabBtnTopNap', 'TOP NẠP');
+            setHTML('tabBtnPhanThuong', 'PHẦN THƯỞNG');
+            setHTML('checkoutBtn', '<i class="fa-solid fa-wallet me-1"></i> Thanh toán ngay');
+            setHTML('subtotalLabel', 'Tạm tính:');
+            setHTML('totalLabel', 'Tổng thanh toán:');
+            setHTML('couponLabel', 'Mã giảm giá (Coupon):');
+            setHTML('couponBtn', 'Áp dụng');
+            setHTML('sortDefault', 'Sắp xếp mặc định');
+            setHTML('sortAsc', 'Giá từ thấp đến cao');
+            setHTML('sortDesc', 'Giá từ cao đến thấp');
+            setHTML('qvTitle', 'Chi Tiết Sản Phẩm');
+            setHTML('qvDescLabel', 'Mô tả sản phẩm:');
+            setHTML('qvCloseBtn', 'Đóng');
+            setHTML('qvAddBtn', '<i class="fa-solid fa-cart-plus me-1"></i> Chọn mua');
+            setHTML('wheelTitle', '<i class="fa-solid fa-dharmachakra text-warning fa-spin"></i> VÒNG QUAY MAY MẮN');
+            setHTML('wheelDesc', 'Mỗi tài khoản được tham gia quay thưởng miễn phí 1 lần mỗi ngày. Tỉ lệ trúng cực khủng!');
+            setHTML('wheelBackBtn', '<i class="fa-solid fa-arrow-left me-1"></i> Quay lại Cửa Hàng');
+            setHTML('rewardTitle', '🎁 PHẦN THƯỞNG ĐUA TOP');
+            setHTML('reward1', '🥇 <b>Top 1:</b> Cộng 500k vào ví + 1 Acc VIP Free.');
+            setHTML('reward2', '🥈 <b>Top 2:</b> Cộng 200k vào ví hệ thống.');
+            setHTML('reward3', '🥉 <b>Top 3:</b> Cộng 50k vào ví hệ thống.');
+            
+            setPlaceholder('searchInput', 'Nhập tên gói phần mềm cần tìm...');
+            setPlaceholder('wCardPin', 'Mã thẻ (PIN)...');
+            setPlaceholder('wCardSeri', 'Số Seri thẻ...');
+            document.getElementById('widgetFormSubmit').innerText = 'NẠP THẺ NGAY';
+        }
+        
+        // Cập nhật lại UI giỏ hàng và danh sách sản phẩm để áp dụng ngôn ngữ cho các text được sinh ra bằng JS
+        if (typeof filterAndRenderProducts === 'function') filterAndRenderProducts();
+        if (typeof updateCartUI === 'function') updateCartUI();
+        checkWheelLockStatus();
+    }
 </script>
 </body>
 </html>
