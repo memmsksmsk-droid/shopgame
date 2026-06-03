@@ -358,7 +358,7 @@
             transition: transform 5s cubic-bezier(0.25, 0.1, 0.2, 1);
         }
 
-        /* RESPONSIVE */
+        /* RESPONSIVE & MOBILE OPTIMIZATION */
         @media (max-width: 768px) {
             .main-content { padding-top: 75px; }
             .slide-item { height: 180px; padding: 0 15px; }
@@ -371,7 +371,7 @@
             
             .slider-dots { left: 50%; transform: translateX(-50%); bottom: 10px; }
             
-            .glass-floating-container { transform: scale(0.85); transform-origin: bottom right; right: 15px; bottom: 15px; gap: 10px; }
+            .glass-floating-container { transform: scale(0.85); transform-origin: bottom right; right: 15px; bottom: 85px; gap: 10px; } /* Đẩy icon nổi lên tránh đè thanh cart */
             
             .navbar-nav { padding-top: 15px; padding-bottom: 10px; }
             .user-box { display: inline-block; margin-bottom: 8px; }
@@ -379,9 +379,48 @@
             .widget-tabs .btn-widget-tab { padding: 4px 5px; font-size: 0.7rem; }
             .product-img { height: 140px; }
             
-            .cart-sidebar { margin-top: 20px; }
-            
             .wheel-container { transform: scale(0.85); margin-top: -20px; }
+        }
+
+        /* --- CẤU HÌNH BIẾN ĐỔI GIỎ HÀNG RIÊNG CHO ĐIỆN THOẠI (DƯỚI 992PX) --- */
+        @media (max-width: 991px) {
+            body {
+                padding-bottom: 85px !important; /* Tạo khoảng trống chân trang bằng kích thước thanh Bottom Bar */
+            }
+            .cart-sidebar {
+                position: fixed !important;
+                bottom: -100% !important; /* Mặc định giấu dưới màn hình */
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                z-index: 1060 !important;
+                background: #ffffff !important;
+                border-radius: 20px 20px 0 0 !important;
+                box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15) !important;
+                transition: bottom 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+                max-height: 75vh !important;
+                overflow-y: auto !important;
+                margin-top: 0 !important;
+                top: auto !important;
+                padding: 20px !important;
+            }
+            /* Trạng thái khi mở giỏ hàng di động */
+            .cart-sidebar.show-mobile-cart {
+                bottom: 0 !important;
+            }
+            /* Lớp nền mờ tối màu phía sau giỏ hàng */
+            .mobile-cart-overlay {
+                position: fixed;
+                top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1055;
+                display: none;
+                backdrop-filter: blur(3px);
+                -webkit-backdrop-filter: blur(3px);
+            }
+            .mobile-cart-overlay.show {
+                display: block;
+            }
         }
     </style>
 </head>
@@ -608,7 +647,11 @@
             <div class="cart-sidebar shadow-sm">
                 <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
                     <h6 id="cartHeading" class="m-0 fw-bold"><i class="fa-solid fa-cart-shopping me-1 text-primary"></i> Giỏ hàng của bạn</h6>
-                    <span class="badge bg-danger rounded-pill" id="cartCountBadge">0</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-danger rounded-pill" id="cartCountBadge">0</span>
+                        <!-- Nút đóng giỏ hàng chỉ hiển thị trên di động -->
+                        <button type="button" class="btn-close d-lg-none" onclick="toggleMobileCart()" aria-label="Close" style="font-size: 0.8rem;"></button>
+                    </div>
                 </div>
                 <div id="cartItemsList" style="max-height: 240px; overflow-y: auto;"></div>
 
@@ -697,6 +740,29 @@
         </div>
     </div>
 </div>
+
+<!-- ================= ELEMENT MỚI BỔ SUNG CHO MOBILE ================= -->
+<!-- Thanh hiển thị nhanh giỏ hàng cố định dưới màn hình Điện thoại -->
+<div class="d-lg-none fixed-bottom bg-white border-top p-3 shadow-lg" id="mobileCartBar" style="z-index: 1050; display: none;">
+    <div class="container d-flex justify-content-between align-items-center p-0">
+        <div class="d-flex align-items-center gap-2" onclick="toggleMobileCart()" style="cursor: pointer;">
+            <div class="position-relative p-1">
+                <i class="fa-solid fa-cart-shopping fs-4 text-primary"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="mobileCartCountBadge" style="font-size: 0.65rem; padding: 3px 6px;">0</span>
+            </div>
+            <div class="ms-1">
+                <small class="text-muted d-block" id="mobileCartTotalLabel" style="font-size: 0.7rem; line-height: 1.1;">Tổng cộng:</small>
+                <span class="fw-bold text-danger fs-5" id="mobileCartTotalSum" style="line-height: 1;">0đ</span>
+            </div>
+        </div>
+        <button class="btn btn-primary fw-bold px-3 py-2 btn-sm" onclick="toggleMobileCart()" id="mobileCartBtnText" style="border-radius: 8px;">
+            Xem Giỏ Hàng
+        </button>
+    </div>
+</div>
+
+<!-- Lớp nền tối mờ khi mở giỏ hàng di động -->
+<div class="mobile-cart-overlay" id="mobileCartOverlay" onclick="toggleMobileCart()"></div>
 
 <footer class="text-center mt-5">
     <div class="container">
@@ -859,6 +925,24 @@
         updateCartUI();
     }
 
+    // HÀM ĐIỀU KHIỂN ĐÓNG MỞ GIỎ HÀNG TRÊN MOBILE
+    function toggleMobileCart() {
+        const sidebar = document.querySelector('.cart-sidebar');
+        const overlay = document.getElementById('mobileCartOverlay');
+        const btnText = document.getElementById('mobileCartBtnText');
+        
+        if (sidebar && overlay) {
+            sidebar.classList.toggle('show-mobile-cart');
+            overlay.classList.toggle('show');
+            
+            if (sidebar.classList.contains('show-mobile-cart')) {
+                if(btnText) btnText.innerText = currentLang === 'en' ? 'Close' : 'Thu Gọn';
+            } else {
+                if(btnText) btnText.innerText = currentLang === 'en' ? 'View Cart' : 'Xem Giỏ Hàng';
+            }
+        }
+    }
+
     function updateCartUI() {
         const listEl = document.getElementById('cartItemsList');
         let totalCount = 0, subTotal = 0;
@@ -883,6 +967,24 @@
         document.getElementById('cartCountBadge').innerText = totalCount;
         document.getElementById('cartSubTotal').innerText = subTotal.toLocaleString() + "đ";
         document.getElementById('cartTotalSum').innerText = finalTotal.toLocaleString() + "đ";
+
+        // Cập nhật và đồng bộ dữ liệu sang thanh Mobile Bottom Bar
+        const mBar = document.getElementById('mobileCartBar');
+        const mCount = document.getElementById('mobileCartCountBadge');
+        const mTotal = document.getElementById('mobileCartTotalSum');
+        if (mBar && mCount && mTotal) {
+            mCount.innerText = totalCount;
+            mTotal.innerText = finalTotal.toLocaleString() + "đ";
+            if (totalCount > 0) {
+                mBar.style.setProperty('display', 'block', 'important');
+            } else {
+                mBar.style.setProperty('display', 'none', 'important');
+                const sidebar = document.querySelector('.cart-sidebar');
+                if (sidebar) sidebar.classList.remove('show-mobile-cart');
+                const overlay = document.getElementById('mobileCartOverlay');
+                if (overlay) overlay.classList.remove('show');
+            }
+        }
     }
 
     function checkoutCart() {
@@ -1096,6 +1198,13 @@
             setPlaceholder('wCardSeri', 'Card Serial Number...');
             document.getElementById('widgetFormSubmit').innerText = 'DEPOSIT NOW';
             
+            // Đa ngôn ngữ cho thanh mobile
+            setHTML('mobileCartTotalLabel', 'Total:');
+            const mobileBtn = document.getElementById('mobileCartBtnText');
+            if(mobileBtn && !document.querySelector('.cart-sidebar').classList.contains('show-mobile-cart')) {
+                mobileBtn.innerText = 'View Cart';
+            } else if(mobileBtn) { mobileBtn.innerText = 'Close'; }
+
         } else {
             setHTML('navbarDeposit', '<i class="fa-solid fa-wallet me-1 text-primary"></i> Nạp Tiền');
             setHTML('linkBanking', '<i class="fa-solid fa-building-columns text-primary me-2"></i> Nạp Ngân Hàng');
@@ -1133,9 +1242,15 @@
             setPlaceholder('wCardPin', 'Mã thẻ (PIN)...');
             setPlaceholder('wCardSeri', 'Số Seri thẻ...');
             document.getElementById('widgetFormSubmit').innerText = 'NẠP THẺ NGAY';
+
+            // Đa ngôn ngữ cho thanh mobile
+            setHTML('mobileCartTotalLabel', 'Tổng cộng:');
+            const mobileBtn = document.getElementById('mobileCartBtnText');
+            if(mobileBtn && !document.querySelector('.cart-sidebar').classList.contains('show-mobile-cart')) {
+                mobileBtn.innerText = 'Xem Giỏ Hàng';
+            } else if(mobileBtn) { mobileBtn.innerText = 'Thu Gọn'; }
         }
         
-        // Cập nhật lại UI giỏ hàng và danh sách sản phẩm để áp dụng ngôn ngữ cho các text được sinh ra bằng JS
         if (typeof filterAndRenderProducts === 'function') filterAndRenderProducts();
         if (typeof updateCartUI === 'function') updateCartUI();
         checkWheelLockStatus();
