@@ -111,18 +111,49 @@
         .info-box small {
             color: #6c757d;
         }
+
+        /* --- CSS NÂNG CẤP ĐĂNG NHẬP MXH --- */
+        .social-btn {
+            width: 100%;
+            margin-bottom: 12px;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-google { background-color: #ffffff; color: #757575; border: 1px solid #ddd; }
+        .btn-google:hover { background-color: #f1f5f9; color: #333; }
+        .btn-facebook { background-color: #1877F2; color: #ffffff; border: none; }
+        .btn-facebook:hover { background-color: #166fe5; color: #ffffff; }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .divider:not(:empty)::before { margin-right: .5em; }
+        .divider:not(:empty)::after { margin-left: .5em; }
     </style>
 </head>
 <body>
 
-<!-- MÀN HÌNH CHÀO MỪNG (Sẽ hiện đầu tiên) -->
 <div class="auth-card text-center" id="welcomeView">
     <div class="mb-4">
         <h3 class="fw-bold text-primary">ShopGame Uy Tín</h3>
         <p class="text-muted small">Khám phá dịch vụ của chúng tôi</p>
     </div>
 
-    <!-- Thông tin thống kê -->
     <div class="info-box">
         <i class="fa-solid fa-users text-primary"></i>
         <div>
@@ -147,7 +178,6 @@
         </div>
     </div>
 
-    <!-- Nút hành động -->
     <div class="d-grid gap-2">
         <button class="btn btn-primary fw-bold py-2" onclick="showAuth('login')">
             <i class="fa-solid fa-right-to-bracket me-1"></i> ĐĂNG NHẬP
@@ -158,7 +188,6 @@
     </div>
 </div>
 
-<!-- GIAO DIỆN ĐĂNG NHẬP / ĐĂNG KÝ CŨ (Mặc định bị ẩn) -->
 <div class="auth-card d-none" id="authView">
     <div class="text-center mb-4">
         <h3 class="fw-bold text-primary">login shop</h3>
@@ -174,7 +203,6 @@
         </li>
     </ul>
 
-    <!-- FAKE CAPTCHA & ĐIỀU BẤT NGỜ -->
     <div class="fake-captcha mb-3" onclick="verifyFakeCaptcha()">
         <div class="d-flex align-items-center">
             <div class="captcha-checkbox me-3" id="captchaBox"></div>
@@ -191,7 +219,6 @@
         <p class="text-success small fw-bold mt-2 mb-0"><i class="fa-solid fa-shield-cat me-1"></i> Trông bạn uy tín đấy! Đã xác thực thành công.</p>
     </div>
 
-    <!-- FORM ĐĂNG NHẬP -->
     <div id="loginFormSection">
         <div class="mb-3">
             <label class="form-label small fw-bold">Tài khoản / Email</label>
@@ -211,9 +238,20 @@
             <label class="form-check-label small text-muted" for="rememberMe">Ghi nhớ đăng nhập</label>
         </div>
         <button onclick="doLogin()" class="btn btn-primary w-100 py-2 fw-bold">ĐĂNG NHẬP</button>
+
+        <div class="divider">Hoặc đăng nhập bằng</div>
+        
+        <button type="button" class="btn social-btn btn-google shadow-sm" onclick="loginWithGoogle()">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style="width: 20px; height: 20px; margin-right: 8px;">
+            Đăng nhập với Google
+        </button>
+
+        <button type="button" class="btn social-btn btn-facebook shadow-sm" onclick="loginWithFacebook()">
+            <i class="fa-brands fa-facebook" style="font-size: 1.2rem; margin-right: 8px;"></i>
+            Đăng nhập với Facebook
+        </button>
     </div>
 
-    <!-- FORM ĐĂNG KÝ -->
     <div id="registerFormSection" class="d-none">
         <div class="mb-3">
             <label class="form-label small fw-bold">Địa chỉ Email mới</label>
@@ -231,7 +269,6 @@
         <button onclick="doRegister()" class="btn btn-success w-100 py-2 fw-bold">TẠO TÀI KHOẢN MỚI</button>
     </div>
     
-    <!-- Nút quay lại màn hình Welcome -->
     <div class="text-center mt-3">
         <button class="btn btn-link text-muted small text-decoration-none" onclick="showWelcome()">
             <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
@@ -240,6 +277,7 @@
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
@@ -256,13 +294,17 @@
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    // 2. KHỞI TẠO PROVIDER CHO MXH
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    const facebookProvider = new firebase.auth.FacebookAuthProvider();
+
     let isRobotVerified = false;
 
-    // --- HÀM MỚI: Chuyển đổi giữa Welcome View và Auth View ---
+    // --- HÀM Chuyển đổi giữa Welcome View và Auth View ---
     function showAuth(mode) {
         document.getElementById('welcomeView').classList.add('d-none');
         document.getElementById('authView').classList.remove('d-none');
-        switchTab(mode); // Chuyển luôn sang tab tương ứng
+        switchTab(mode);
     }
 
     function showWelcome() {
@@ -364,6 +406,57 @@
         });
     }
 
+    // --- LOGIC MỚI: ĐĂNG NHẬP MẠNG XÃ HỘI ĐỒNG BỘ LOGIC CŨ ---
+    function handleSocialLogin(provider) {
+        // Vẫn bắt buộc bấm xác minh Fake Captcha để giao diện đồng nhất
+        if (!isRobotVerified) { alert("Vui lòng xác minh không phải người máy trước!"); return; }
+
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                const user = result.user;
+                const email = user.email || (user.uid + "@facebook.com"); 
+
+                // Check xem email này đã có trong database sys_users chưa
+                db.ref('sys_users').orderByChild('email').equalTo(email).once('value', snapshot => {
+                    if (snapshot.exists()) {
+                        // Đã có tài khoản -> Đăng nhập luôn
+                        finishLoginFlow(email);
+                    } else {
+                        // Chưa có -> Tạo tài khoản mới vào hệ thống gốc với balance = 0
+                        db.ref('sys_users').push({
+                            email: email,
+                            pass: btoa('SOCIAL_LOGIN_' + user.uid), 
+                            balance: 0
+                        }).then(() => {
+                            finishLoginFlow(email);
+                        });
+                    }
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Đăng nhập bị hủy hoặc xảy ra lỗi: " + error.message);
+            });
+    }
+
+    function loginWithGoogle() {
+        handleSocialLogin(googleProvider);
+    }
+
+    function loginWithFacebook() {
+        handleSocialLogin(facebookProvider);
+    }
+
+    function finishLoginFlow(email) {
+        const rememberMe = document.getElementById('rememberMe').checked;
+        localStorage.setItem('currentUserEmail', email);
+        if (rememberMe) localStorage.setItem('rememberedUserEmail', email);
+        else localStorage.removeItem('rememberedUserEmail');
+        
+        window.location.href = 'home.html';
+    }
+
+    // --- TỰ ĐỘNG ĐĂNG NHẬP NẾU ĐÃ LƯU ---
     window.onload = function() {
         let savedEmail = localStorage.getItem('rememberedUserEmail');
         if (savedEmail) {
