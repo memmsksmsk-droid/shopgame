@@ -3,122 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Quản Lý Hệ Thống | TEAM LOLREBORN</title>
+    <title>Admin Panel - Quản Lý Hệ Thống</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        body {
-            background-color: #f4f6f9 !important;
-            color: #212529 !important;
-            font-family: 'Segoe UI', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* Tùy chỉnh Layout Sidebar & Main Content */
-        #wrapper {
-            display: flex;
-            width: 100%;
-            align-items: stretch;
-        }
-
-        #sidebar-wrapper {
-            min-width: 250px;
-            max-width: 250px;
-            background-color: #2c3e50;
-            min-height: 100vh;
-            transition: all 0.3s;
-        }
-
-        #sidebar-wrapper .sidebar-heading {
-            padding: 1.5rem 1.25rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #fff;
-            text-align: center;
-            border-bottom: 1px solid #34495e;
-        }
-
-        #sidebar-wrapper .list-group-item {
-            background-color: #2c3e50;
-            color: #bdc3c7;
-            border: none;
-            padding: 15px 20px;
-            font-weight: 500;
-            transition: 0.2s;
-        }
-
-        #sidebar-wrapper .list-group-item:hover, #sidebar-wrapper .list-group-item.active {
-            background-color: #34495e;
-            color: #fff;
-            border-left: 4px solid #3498db;
-        }
-
-        #page-content-wrapper {
-            min-width: 0;
-            width: 100%;
-            padding: 20px;
-        }
-
-        /* Ẩn hiện tab */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive Mobile Sidebar */
+        body { background-color: #f4f6f9 !important; color: #212529 !important; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+        #wrapper { display: flex; width: 100%; align-items: stretch; }
+        #sidebar-wrapper { min-width: 250px; max-width: 250px; background-color: #2c3e50; min-height: 100vh; transition: all 0.3s; }
+        #sidebar-wrapper .sidebar-heading { padding: 1.5rem 1.25rem; font-size: 1.2rem; font-weight: bold; color: #fff; text-align: center; border-bottom: 1px solid #34495e; }
+        #sidebar-wrapper .list-group-item { background-color: #2c3e50; color: #bdc3c7; border: none; padding: 15px 20px; font-weight: 500; transition: 0.2s; }
+        #sidebar-wrapper .list-group-item:hover, #sidebar-wrapper .list-group-item.active { background-color: #34495e; color: #fff; border-left: 4px solid #3498db; }
+        #page-content-wrapper { min-width: 0; width: 100%; padding: 20px; }
+        .tab-content { display: none; animation: fadeIn 0.4s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) {
-            #sidebar-wrapper {
-                margin-left: -250px;
-                position: fixed;
-                z-index: 1050;
-                height: 100vh;
-                overflow-y: auto;
-            }
-            #sidebar-wrapper.toggled {
-                margin-left: 0;
-            }
-            #page-content-wrapper {
-                padding: 10px;
-            }
+            #sidebar-wrapper { margin-left: -250px; position: fixed; z-index: 1050; height: 100vh; overflow-y: auto; }
+            #sidebar-wrapper.toggled { margin-left: 0; }
+            #page-content-wrapper { padding: 10px; }
         }
-
-        /* Khung thẻ Admin */
-        .admin-card {
-            background-color: #ffffff !important;
-            border: 1px solid #dee2e6 !important;
-            border-radius: 8px !important;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        /* Hiệu ứng màu cầu vồng 7 màu cho Sản Phẩm */
-        .text-rainbow {
-            background: linear-gradient(90deg, red, orange, #d4d400, green, blue, indigo, violet);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        /* Table */
+        .admin-card { background-color: #ffffff !important; border: 1px solid #dee2e6 !important; border-radius: 8px !important; box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important; padding: 20px; margin-bottom: 20px; }
+        .stat-card { background: linear-gradient(135deg, #0d6efd, #0dcaf0); color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .text-rainbow { background: linear-gradient(90deg, red, orange, #d4d400, green, blue, indigo, violet); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold; font-size: 1.1rem; }
         .table { background-color: #ffffff !important; }
         .table thead { background-color: #f1f3f5 !important; }
     </style>
@@ -126,30 +32,17 @@
 <body>
 
 <div id="wrapper">
-    <!-- Sidebar Menu Bên Trái -->
     <div id="sidebar-wrapper">
-        <div class="sidebar-heading">
-            <i class="fa-solid fa-user-shield me-2"></i> ADMIN PANEL
-        </div>
+        <div class="sidebar-heading"><i class="fa-solid fa-user-shield me-2"></i> ADMIN PANEL</div>
         <div class="list-group list-group-flush mt-2">
-            <a href="#" class="list-group-item list-group-item-action active" onclick="switchTab(event, 'tab-taikhoan')">
-                <i class="fa-solid fa-users me-2"></i> Quản Lý Tài Khoản
-            </a>
-            <a href="#" class="list-group-item list-group-item-action" onclick="switchTab(event, 'tab-giaodich')">
-                <i class="fa-solid fa-money-bill-transfer me-2"></i> Quản Lý Giao Dịch
-            </a>
-            <a href="#" class="list-group-item list-group-item-action" onclick="switchTab(event, 'tab-sanpham')">
-                <i class="fa-solid fa-box-open me-2"></i> Quản Lý Sản Phẩm
-            </a>
-            <a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="logoutAdmin()">
-                <i class="fa-solid fa-power-off me-2"></i> Đăng Xuất
-            </a>
+            <a href="#" class="list-group-item list-group-item-action active" onclick="switchTab(event, 'tab-taikhoan')"><i class="fa-solid fa-users me-2"></i> Quản Lý Tài Khoản</a>
+            <a href="#" class="list-group-item list-group-item-action" onclick="switchTab(event, 'tab-giaodich')"><i class="fa-solid fa-money-bill-transfer me-2"></i> Quản Lý Giao Dịch</a>
+            <a href="#" class="list-group-item list-group-item-action" onclick="switchTab(event, 'tab-sanpham')"><i class="fa-solid fa-box-open me-2"></i> Quản Lý Sản Phẩm (Kho)</a>
+            <a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="logoutAdmin()"><i class="fa-solid fa-power-off me-2"></i> Đăng Xuất</a>
         </div>
     </div>
 
-    <!-- Nội Dung Bên Phải -->
     <div id="page-content-wrapper">
-        <!-- Header (Có nút Toggle cho Mobile) -->
         <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded shadow-sm">
             <div class="d-flex align-items-center">
                 <button class="btn btn-primary d-md-none me-3" id="menu-toggle"><i class="fa-solid fa-bars"></i></button>
@@ -158,7 +51,6 @@
             <p class="text-muted small m-0 d-none d-md-block">Chào mừng Admin | Quản lý hệ thống toàn diện</p>
         </div>
 
-        <!-- ================= MỤC 1: TÀI KHOẢN ================= -->
         <div id="tab-taikhoan" class="tab-content active">
             <div class="row">
                 <div class="col-md-4 mb-4">
@@ -169,15 +61,15 @@
                 </div>
             </div>
             <div class="admin-card">
-                <h5><i class="fa-solid fa-users-gear me-2 text-primary"></i>Danh Sách Tài Khoản (Đổi Mật Khẩu & Cộng Tiền)</h5>
+                <h5><i class="fa-solid fa-users-gear me-2 text-primary"></i>Danh Sách Tài Khoản</h5>
                 <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
                     <table class="table table-bordered text-center m-0 align-middle">
                         <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Email (Tên đăng nhập)</th>
+                                <th>Email</th>
                                 <th>Mật khẩu giải mã</th>
-                                <th>Số dư ví hiện tại</th>
+                                <th>Số dư ví</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -187,7 +79,6 @@
             </div>
         </div>
 
-        <!-- ================= MỤC 2: GIAO DỊCH ================= -->
         <div id="tab-giaodich" class="tab-content">
             <div class="row">
                 <div class="col-md-4 mb-4">
@@ -197,43 +88,24 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
-                <!-- Lịch Sử Nạp / Duyệt Thẻ -->
                 <div class="col-xl-6 mb-4">
                     <div class="admin-card h-100">
-                        <h5><i class="fa-solid fa-ticket me-2 text-primary"></i>Giao Dịch Nạp Tiền (Duyệt Thẻ)</h5>
-                        <p class="text-muted small">Check thông tin thẻ và duyệt cộng tiền cho tài khoản tại đây.</p>
+                        <h5><i class="fa-solid fa-ticket me-2 text-primary"></i>Duyệt Nạp Thẻ</h5>
                         <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
                             <table class="table table-bordered text-center m-0 align-middle">
-                                <thead>
-                                    <tr>
-                                        <th>Tài khoản gửi</th>
-                                        <th>Chi tiết thẻ cào</th>
-                                        <th>Thao tác</th>
-                                    </tr>
-                                </thead>
+                                <thead><tr><th>Khách hàng</th><th>Chi tiết thẻ</th><th>Thao tác</th></tr></thead>
                                 <tbody id="cardsTableBody"></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
-                <!-- Lịch Sử Mua Hàng -->
                 <div class="col-xl-6 mb-4">
                     <div class="admin-card h-100">
-                        <h5><i class="fa-solid fa-cart-shopping me-2 text-primary"></i>Lịch Sử Mua Hàng Của Khách</h5>
-                        <p class="text-muted small">Thông tin từng đơn hàng khách đã thanh toán.</p>
+                        <h5><i class="fa-solid fa-cart-shopping me-2 text-primary"></i>Lịch Sử Mua Hàng</h5>
                         <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
                             <table class="table table-bordered text-center m-0 align-middle">
-                                <thead>
-                                    <tr>
-                                        <th>Khách hàng</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Số tiền</th>
-                                        <th>Trạng thái</th>
-                                    </tr>
-                                </thead>
+                                <thead><tr><th>Khách hàng</th><th>Sản phẩm</th><th>Số tiền</th><th>Trạng thái</th></tr></thead>
                                 <tbody id="ordersTableBody"></tbody>
                             </table>
                         </div>
@@ -242,10 +114,8 @@
             </div>
         </div>
 
-        <!-- ================= MỤC 3: SẢN PHẨM ================= -->
         <div id="tab-sanpham" class="tab-content">
             <div class="row">
-                <!-- Form Đăng Bài -->
                 <div class="col-xl-4 mb-4">
                     <div class="admin-card">
                         <h5><i class="fa-solid fa-plus-circle me-2 text-primary"></i>Đăng Sản Phẩm Mới</h5>
@@ -253,50 +123,53 @@
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label class="form-label small fw-bold">Tên gói phần mềm:</label>
-                                    <input type="text" id="pName" class="form-control form-control-sm" placeholder="Ví dụ: KEY LOLREBORN - 1 NGÀY" required>
+                                    <input type="text" id="pName" class="form-control form-control-sm" required>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label small fw-bold">Giá bán (VNĐ):</label>
-                                    <input type="number" id="pPrice" class="form-control form-control-sm" placeholder="Ví dụ: 20000" required>
+                                    <input type="number" id="pPrice" class="form-control form-control-sm" required>
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label small fw-bold">Hình ảnh (File JPG/PNG):</label>
+                                    <label class="form-label small fw-bold">Hình ảnh (JPG/PNG):</label>
                                     <input type="file" id="pImgFile" accept="image/*" class="form-control form-control-sm" onchange="previewAndCompressImage(this)" required>
                                     <img id="uploadPreview" src="#" alt="Preview" style="max-width: 100%; max-height: 120px; display: none; margin-top: 10px; border-radius: 4px;">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label small fw-bold">Icon bổ trợ:</label>
                                     <select id="pIcon" class="form-select form-select-sm">
-                                        <option value="fa-cube">fa-cube (Hộp khối đơn)</option>
-                                        <option value="fa-cubes">fa-cubes (Nhiều khối)</option>
-                                        <option value="fa-box-open">fa-box-open (Thùng mở)</option>
-                                        <option value="fa-shield-halved">fa-shield-halved (Khiên bảo mật)</option>
+                                        <option value="fa-cube">fa-cube</option>
+                                        <option value="fa-gamepad">fa-gamepad</option>
+                                        <option value="fa-shield-halved">fa-shield-halved</option>
                                     </select>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label small fw-bold">Mô tả ngắn gọn:</label>
-                                    <textarea id="pDesc" rows="2" class="form-control form-control-sm" placeholder="Kích hoạt đầy đủ tính năng VIP..." required></textarea>
+                                    <textarea id="pDesc" rows="2" class="form-control form-control-sm" required></textarea>
+                                </div>
+                                <div class="col-12 border border-primary p-2 bg-light rounded">
+                                    <label class="form-label small fw-bold text-primary">Thêm Tài Khoản Vào Kho (1 dòng = 1 acc):</label>
+                                    <textarea id="pAccounts" rows="4" class="form-control form-control-sm" placeholder="user1|pass1&#10;user2|pass2"></textarea>
+                                    <small class="text-muted" style="font-size:0.75rem;">Định dạng gợi ý: Tài khoản|Mật khẩu</small>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-sm btn-primary w-100 py-2 fw-bold"><i class="fa-solid fa-upload me-1"></i> XÁC NHẬN ĐĂNG BÁN</button>
+                                    <button type="submit" class="btn btn-sm btn-primary w-100 py-2 fw-bold"><i class="fa-solid fa-upload me-1"></i> ĐĂNG BÁN</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <!-- Danh Sách Sản Phẩm -->
                 <div class="col-xl-8 mb-4">
                     <div class="admin-card">
-                        <h5><i class="fa-solid fa-boxes-stacked me-2 text-primary"></i>Kho Sản Phẩm (Tên màu cầu vồng)</h5>
+                        <h5><i class="fa-solid fa-boxes-stacked me-2 text-primary"></i>Quản Lý Kho Sản Phẩm</h5>
                         <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
                             <table class="table table-bordered text-center m-0 align-middle">
                                 <thead>
                                     <tr>
                                         <th>Ảnh</th>
-                                        <th class="text-start">Tên gói (Màu 7 sắc) & Mô tả</th>
+                                        <th class="text-start">Tên & Thông tin kho</th>
                                         <th>Giá</th>
-                                        <th>Quản lý</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody id="adminProductsTable"></tbody>
@@ -306,46 +179,51 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
+<div class="modal fade" id="addStockModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold text-success"><i class="fa-solid fa-box-open"></i> Nạp thêm Tài khoản</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="stockProductId">
+                <label class="form-label small fw-bold">Nhập danh sách acc (mỗi acc 1 dòng, VD: tk|mk):</label>
+                <textarea id="newStockAccounts" rows="6" class="form-control" placeholder="user1|pass1&#10;user2|pass2"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-success fw-bold" onclick="submitAddStock()"><i class="fa-solid fa-check"></i> Lưu Kho</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
-    // Toggle Menu Mobile
     document.getElementById("menu-toggle").addEventListener("click", function(e) {
-        e.preventDefault();
-        document.getElementById("sidebar-wrapper").classList.toggle("toggled");
+        e.preventDefault(); document.getElementById("sidebar-wrapper").classList.toggle("toggled");
     });
 
-    // Chuyển Tab Mượt Mà
     function switchTab(e, tabId) {
         e.preventDefault();
-        // Xóa active ở tất cả tab content
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        // Xóa active ở tất cả menu item
         document.querySelectorAll('.list-group-item').forEach(item => item.classList.remove('active'));
-        
-        // Hiện tab được chọn
         document.getElementById(tabId).classList.add('active');
         e.currentTarget.classList.add('active');
-
-        // Đóng menu trên mobile nếu đang mở
-        if (window.innerWidth <= 768) {
-            document.getElementById("sidebar-wrapper").classList.remove("toggled");
-        }
+        if (window.innerWidth <= 768) document.getElementById("sidebar-wrapper").classList.remove("toggled");
     }
 
-    // CẤU HÌNH FIREBASE
     const firebaseConfig = {
         apiKey: "AIzaSyD_8idShoCkxrEqFkTY4HZYEkTINtHbw7I",
         authDomain: "shopgame-b6cc6.firebaseapp.com",
         databaseURL: "https://shopgame-b6cc6-default-rtdb.firebaseio.com",
-        projectId: "shopgame-b6cc6",
-        storageBucket: "shopgame-b6cc6.firebasestorage.app",
-        messagingSenderId: "597813903573",
-        appId: "1:597813903573:web:3d64f5f96ad87bad95225c",
+        projectId: "shopgame-b6cc6"
     };
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
@@ -353,212 +231,183 @@
     let currentBase64Image = "";
 
     window.onload = function() {
-        renderUsersList();
-        renderCards();
-        renderOrders();
-        renderAdminProducts();
+        renderUsersList(); renderCards(); renderOrders(); renderAdminProducts();
     };
 
-    // ================= MỤC 1: TÀI KHOẢN =================
     function renderUsersList() {
         db.ref('sys_users').on('value', snap => {
             const tbody = document.getElementById('usersTableBody');
             const data = snap.val();
-            if (!data) { 
-                document.getElementById('totalUsersCount').innerText = 0;
-                tbody.innerHTML = `<tr><td colspan="5" class="text-muted py-4">Chưa có thành viên.</td></tr>`; 
-                return; 
-            }
-            
+            if (!data) { document.getElementById('totalUsersCount').innerText = 0; tbody.innerHTML = `<tr><td colspan="5">Trống.</td></tr>`; return; }
             const users = Object.keys(data).map(k => ({ key: k, ...data[k] }));
-            document.getElementById('totalUsersCount').innerText = users.length; // Cập nhật thống kê
-
-            tbody.innerHTML = users.map((u, index) => `
+            document.getElementById('totalUsersCount').innerText = users.length;
+            tbody.innerHTML = users.map((u, i) => `
                 <tr>
-                    <td>${index + 1}</td>
-                    <td class="text-primary text-start fw-bold">${u.email}</td>
+                    <td>${i + 1}</td><td class="text-primary text-start fw-bold">${u.email}</td>
                     <td><input type="text" id="editPass_${u.key}" class="form-control form-control-sm text-center mx-auto w-75" value="${atob(u.pass)}"></td>
                     <td><input type="number" id="editBalance_${u.key}" class="form-control form-control-sm text-center text-danger fw-bold mx-auto w-75" value="${u.balance || 0}"></td>
-                    <td><button onclick="updateUserData('${u.key}', '${u.email}', ${u.balance || 0})" class="btn btn-sm btn-primary">Lưu lại</button></td>
-                </tr>
-            `).join('');
+                    <td><button onclick="updateUserData('${u.key}', '${u.email}', ${u.balance || 0})" class="btn btn-sm btn-primary">Lưu</button></td>
+                </tr>`).join('');
         });
     }
 
-    function updateUserData(userKey, email, oldBalance) {
+    function updateUserData(userKey, email, oldBal) {
         const newPass = document.getElementById(`editPass_${userKey}`).value.trim();
-        const newBalance = parseInt(document.getElementById(`editBalance_${userKey}`).value) || 0;
-        
-        if (newBalance > oldBalance) {
-            db.ref('sys_cards').push({
-                userEmail: email, type: 'Admin cộng tiền', value: newBalance - oldBalance,
-                pin: 'N/A', seri: 'N/A', status: 'Thành công', time: new Date().toLocaleString()
-            });
-        }
-        db.ref('sys_users/' + userKey).update({ pass: btoa(newPass), balance: newBalance })
-        .then(() => alert(`Cập nhật tài khoản [${email}] thành công!`));
+        const newBal = parseInt(document.getElementById(`editBalance_${userKey}`).value) || 0;
+        if (newBal > oldBal) db.ref('sys_cards').push({ userEmail: email, type: 'Admin cộng tiền', value: newBal - oldBal, pin: 'N/A', seri: 'N/A', status: 'Thành công', time: new Date().toLocaleString() });
+        db.ref('sys_users/' + userKey).update({ pass: btoa(newPass), balance: newBal }).then(() => alert(`Đã cập nhật [${email}]`));
     }
 
-    // ================= MỤC 2: GIAO DỊCH (THẺ CÀO & ĐƠN HÀNG) =================
     function renderCards() {
         db.ref('sys_cards').on('value', snap => {
             const tbody = document.getElementById('cardsTableBody');
-            const data = snap.val();
-            let currentMonthRevenue = 0;
-            const currentMonth = new Date().getMonth();
-            const currentYear = new Date().getFullYear();
-
-            if (!data) { 
-                document.getElementById('totalRevenue').innerText = '0đ';
-                tbody.innerHTML = `<tr><td colspan="3" class="text-muted py-4">Chưa có yêu cầu nạp thẻ.</td></tr>`; 
-                return; 
-            }
-            
+            const data = snap.val(); let rev = 0;
+            if (!data) { tbody.innerHTML = `<tr><td colspan="3">Trống.</td></tr>`; return; }
             const cards = Object.keys(data).map(k => ({ key: k, ...data[k] })).reverse();
-            
             tbody.innerHTML = cards.map(c => {
-                // Tính doanh thu tháng này dựa trên thẻ Thành Công
-                if (c.status === 'Thành công' && c.value > 0) {
-                    let d = new Date(c.time);
-                    if(!isNaN(d) && d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
-                        currentMonthRevenue += parseInt(c.value);
-                    }
-                }
-
-                return `
-                <tr>
-                    <td class="text-start small text-primary"><i class="fa-regular fa-envelope me-1"></i>${c.userEmail}<br><small class="text-muted">${c.time}</small></td>
+                if (c.status === 'Thành công') rev += parseInt(c.value);
+                return `<tr>
+                    <td class="text-start small">${c.userEmail}<br><small class="text-muted">${c.time}</small></td>
                     <td class="text-start small">
                         <b>${c.type}</b> - <span class="text-danger fw-bold">${c.value.toLocaleString()}đ</span><br>
                         PIN: <code>${c.pin}</code> | SERI: <code>${c.seri}</code><br>
-                        Status: <span class="${c.status === 'Thành công' ? 'text-success' : (c.status === 'Sai thẻ' ? 'text-danger' : 'text-warning')} fw-bold">${c.status}</span>
+                        Status: <b class="${c.status === 'Thành công'?'text-success':(c.status === 'Chờ duyệt'?'text-warning':'text-danger')}">${c.status}</b>
                     </td>
-                    <td>
-                        ${c.status === 'Chờ duyệt' ? `
-                            <button onclick="processCard('${c.key}', '${c.userEmail}', ${c.value}, 'approve')" class="btn btn-success btn-sm mb-1 w-100">Duyệt Cộng Tiền</button>
-                            <button onclick="processCard('${c.key}', '${c.userEmail}', 0, 'reject')" class="btn btn-danger btn-sm w-100">Báo Sai Thẻ</button>
-                        ` : `<span class="badge bg-secondary">Đã xử lý</span>`}
-                    </td>
-                </tr>
-            `}).join('');
-
-            document.getElementById('totalRevenue').innerText = currentMonthRevenue.toLocaleString() + 'đ';
+                    <td>${c.status === 'Chờ duyệt' ? `
+                        <button onclick="processCard('${c.key}', '${c.userEmail}', ${c.value}, 'approve')" class="btn btn-success btn-sm mb-1 w-100">Duyệt</button>
+                        <button onclick="processCard('${c.key}', '${c.userEmail}', 0, 'reject')" class="btn btn-danger btn-sm w-100">Từ chối</button>
+                    ` : `<span class="badge bg-secondary">Đã xử lý</span>`}</td>
+                </tr>`}).join('');
+            document.getElementById('totalRevenue').innerText = rev.toLocaleString() + 'đ';
         });
     }
 
-    function processCard(cardKey, userEmail, value, action) {
-        const newStatus = action === 'approve' ? 'Thành công' : 'Sai thẻ';
-        db.ref('sys_cards/' + cardKey).update({ status: newStatus }).then(() => {
+    function processCard(k, email, val, action) {
+        const st = action === 'approve' ? 'Thành công' : 'Sai thẻ';
+        db.ref('sys_cards/' + k).update({ status: st }).then(() => {
             if (action === 'approve') {
-                db.ref('sys_users').orderByChild('email').equalTo(userEmail).once('value', snap => {
+                db.ref('sys_users').orderByChild('email').equalTo(email).once('value', snap => {
                     if(snap.exists()) {
-                        const userKey = Object.keys(snap.val())[0];
-                        const oldBal = snap.val()[userKey].balance || 0;
-                        db.ref('sys_users/' + userKey).update({ balance: oldBal + value });
-                        alert("Đã duyệt thẻ và cộng tiền thành công!");
+                        let uk = Object.keys(snap.val())[0];
+                        db.ref('sys_users/' + uk).update({ balance: (snap.val()[uk].balance || 0) + val });
+                        alert("Đã cộng tiền!");
                     }
                 });
-            } else { alert("Đã từ chối thẻ!"); }
+            } else alert("Đã từ chối!");
         });
     }
 
     function renderOrders() {
-        // Hàm này đọc từ database sys_orders để hiển thị lịch sử mua hàng của khách.
         db.ref('sys_orders').on('value', snap => {
             const tbody = document.getElementById('ordersTableBody');
             const data = snap.val();
-            if (!data) { tbody.innerHTML = `<tr><td colspan="4" class="text-muted py-4">Chưa có khách mua hàng.</td></tr>`; return; }
-            
-            const orders = Object.keys(data).map(k => ({ key: k, ...data[k] })).reverse();
-            tbody.innerHTML = orders.map(o => `
-                <tr>
-                    <td class="text-start small">${o.userEmail || o.email}<br><small class="text-muted">${o.time}</small></td>
-                    <td class="text-start fw-bold text-dark">${o.productName || 'Sản phẩm'}</td>
-                    <td class="text-danger fw-bold">${parseInt(o.price || 0).toLocaleString()}đ</td>
-                    <td><span class="badge bg-success">Đã thanh toán</span></td>
-                </tr>
-            `).join('');
+            if (!data) { tbody.innerHTML = `<tr><td colspan="4">Trống.</td></tr>`; return; }
+            tbody.innerHTML = Object.keys(data).map(k => data[k]).reverse().map(o => `
+                <tr><td class="small">${o.userEmail}<br><small class="text-muted">${o.time}</small></td>
+                <td class="fw-bold">${o.productName} (x${o.count})</td><td class="text-danger fw-bold">${o.totalPrice.toLocaleString()}đ</td>
+                <td><span class="badge bg-success">Thành công</span></td></tr>`).join('');
         });
     }
 
-    // ================= MỤC 3: SẢN PHẨM =================
-    function previewAndCompressImage(input) {
-        const preview = document.getElementById('uploadPreview');
-        if (input.files && input.files[0]) {
-            const file = input.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
+    function previewAndCompressImage(inp) {
+        if (inp.files && inp.files[0]) {
+            const r = new FileReader();
+            r.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    let width = img.width, height = img.height;
-                    if (width > height && width > 360) { height *= 360 / width; width = 360; } 
-                    else if (height > 360) { width *= 360 / height; height = 360; }
-                    canvas.width = width; canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
+                    let w = img.width, h = img.height;
+                    if (w > h && w > 360) { h *= 360 / w; w = 360; } else if (h > 360) { w *= 360 / h; h = 360; }
+                    canvas.width = w; canvas.height = h;
+                    const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h);
                     currentBase64Image = canvas.toDataURL('image/jpeg', 0.7);
-                    preview.src = currentBase64Image;
-                    preview.style.display = 'inline-block';
+                    document.getElementById('uploadPreview').src = currentBase64Image;
+                    document.getElementById('uploadPreview').style.display = 'block';
                 };
                 img.src = e.target.result;
             };
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = "#"; preview.style.display = 'none'; currentBase64Image = "";
+            r.readAsDataURL(inp.files[0]);
         }
     }
 
+    // THÊM SẢN PHẨM MỚI KÈM THEO DANH SÁCH ACCOUNT
     function handleCreateProduct(e) {
         e.preventDefault();
-        if (!currentBase64Image) { alert("Vui lòng đợi ảnh xử lý xong!"); return; }
+        if (!currentBase64Image) { alert("Vui lòng tải ảnh lên!"); return; }
         
-        const newProduct = {
+        const accStr = document.getElementById('pAccounts').value.trim();
+        const accArray = accStr ? accStr.split('\n').map(a => a.trim()).filter(a => a !== '') : [];
+
+        const newProd = {
             name: document.getElementById('pName').value.trim(),
             price: parseInt(document.getElementById('pPrice').value),
             icon: document.getElementById('pIcon').value,
             desc: document.getElementById('pDesc').value.trim(),
-            img: currentBase64Image
+            img: currentBase64Image,
+            accounts: accArray
         };
 
-        db.ref('sys_products').push(newProduct).then(() => {
-            alert("Đăng bán sản phẩm thành công!");
+        db.ref('sys_products').push(newProd).then(() => {
+            alert("Đã thêm sản phẩm thành công!");
             document.getElementById('productForm').reset();
             document.getElementById('uploadPreview').style.display = 'none';
             currentBase64Image = "";
         });
     }
 
+    // RENDER SẢN PHẨM KÈM KHO
     function renderAdminProducts() {
         db.ref('sys_products').on('value', snap => {
             const tbody = document.getElementById('adminProductsTable');
             const data = snap.val();
-            if (!data) { tbody.innerHTML = `<tr><td colspan="4" class="text-muted py-4">Kho sản phẩm trống!</td></tr>`; return; }
+            if (!data) { tbody.innerHTML = `<tr><td colspan="4">Kho trống!</td></tr>`; return; }
             
             const products = Object.keys(data).map(k => ({ id: k, ...data[k] })).reverse();
-            tbody.innerHTML = products.map(p => `
+            tbody.innerHTML = products.map(p => {
+                const stock = p.accounts ? p.accounts.length : 0;
+                return `
                 <tr>
-                    <td><img src="${p.img}" style="width:60px; height:60px; object-fit:cover; border-radius:8px; border:1px solid #ddd;"></td>
+                    <td><img src="${p.img}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;"></td>
                     <td class="text-start">
-                        <!-- TÊN SẢN PHẨM MÀU CẦU VỒNG -->
                         <div class="text-rainbow">${p.name}</div>
-                        <div class="text-muted mt-1" style="font-size:0.85rem;">${p.desc}</div>
+                        <div class="text-muted mt-1 small">${p.desc}</div>
+                        <div class="mt-2"><span class="badge bg-success shadow-sm">Còn trong kho: ${stock} tài khoản</span></div>
                     </td>
                     <td class="text-danger fw-bold">${parseInt(p.price).toLocaleString()}đ</td>
-                    <td><button onclick="deleteProduct('${p.id}')" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i> Xóa</button></td>
-                </tr>
-            `).join('');
+                    <td>
+                        <button onclick="openAddStock('${p.id}')" class="btn btn-sm btn-info text-white mb-1 fw-bold w-100"><i class="fa-solid fa-plus"></i> Nạp Kho</button>
+                        <button onclick="deleteProduct('${p.id}')" class="btn btn-sm btn-outline-danger fw-bold w-100"><i class="fa-solid fa-trash"></i> Xóa</button>
+                    </td>
+                </tr>`}).join('');
         });
     }
 
-    function deleteProduct(id) {
-        if (confirm("Xác nhận xóa sản phẩm này khỏi hệ thống?")) db.ref('sys_products/' + id).remove();
+    // NẠP THÊM ACC VÀO KHO
+    function openAddStock(id) {
+        document.getElementById('stockProductId').value = id;
+        document.getElementById('newStockAccounts').value = "";
+        new bootstrap.Modal(document.getElementById('addStockModal')).show();
     }
 
-    function logoutAdmin() {
-        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) window.location.href = 'index.html';
+    function submitAddStock() {
+        const id = document.getElementById('stockProductId').value;
+        const newAccsStr = document.getElementById('newStockAccounts').value.trim();
+        const newAccs = newAccsStr ? newAccsStr.split('\n').map(a => a.trim()).filter(a => a !== '') : [];
+        if(newAccs.length === 0) { alert("Vui lòng nhập tài khoản!"); return; }
+        
+        db.ref('sys_products/' + id).once('value', snap => {
+            if(!snap.exists()) return;
+            let currentAccs = snap.val().accounts || [];
+            currentAccs = currentAccs.concat(newAccs);
+            db.ref('sys_products/' + id).update({ accounts: currentAccs }).then(() => {
+                alert("Đã nạp thêm vào kho thành công!");
+                bootstrap.Modal.getInstance(document.getElementById('addStockModal')).hide();
+            });
+        });
     }
+
+    function deleteProduct(id) { if (confirm("Chắc chắn xóa?")) db.ref('sys_products/' + id).remove(); }
+    function logoutAdmin() { if (confirm("Đăng xuất?")) window.location.href = 'index.html'; }
 </script>
-
 </body>
 </html>

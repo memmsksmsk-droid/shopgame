@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lịch Sử Đơn Hàng | ACC CLONE GAME</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --bg-light: #f8fafc;
+            --text-main: #333333;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: var(--text-main);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+            padding-top: 90px;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(241, 245, 249, 0.3);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1050;
+            padding: 10px 0;
+        }
+
+        .logo-text {
+            font-size: 1.35rem;
+            background: linear-gradient(135deg, #0d6efd 0%, #ff1493 50%, #0d6efd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-shop {
+            font-weight: 900;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #ff1493 0%, #ff0080 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .user-box {
+            background: rgba(248, 250, 252, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 50rem;
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .dropdown-menu {
+            background: #ffffff !important;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* --- FILTERS --- */
+        .filter-section {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .filter-group select {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            color: #333333;
+        }
+
+        /* --- ORDERS LIST --- */
+        .orders-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+        }
+
+        .order-id {
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .order-status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .status-processing {
+            background: #e0e7ff;
+            color: #312e81;
+            border: 1px solid #c7d2fe;
+        }
+
+        .status-completed {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .order-body {
+            margin-bottom: 15px;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(226, 232, 240, 0.3);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f1ff 100%);
+        }
+
+        .item-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .item-qty {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .item-price {
+            font-weight: 700;
+            color: #ef4444;
+            font-size: 0.95rem;
+        }
+
+        .order-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 15px;
+            background: rgba(248, 250, 252, 0.5);
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .summary-value {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #ef4444;
+        }
+
+        .order-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .meta-item {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .meta-item i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(226, 232, 240, 0.3);
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-view {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #0052cc;
+        }
+
+        .btn-cancel {
+            background: #f3f4f6;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        .btn-cancel:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* --- EMPTY STATE --- */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        .empty-text {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(226, 232, 240, 0.3);
+            padding: 40px 0;
+            margin-top: 60px;
+            color: #64748b;
+            text-align: center;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .filter-section {
+                grid-template-columns: 1fr;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .order-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="home.html">
+            <img src="logo.jpg" alt="logo" class="rounded-circle shadow-sm" 
+                 style="width: 42px; height: 42px; object-fit: cover; border: 2px solid #0d6efd;">
+            <span class="logo-text fw-bold">bach <span class="logo-shop">shop</span></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navContent">
+            <ul class="navbar-nav ms-auto align-items-center gap-3 mt-3 mt-lg-0">
+                <li class="nav-item">
+                    <a href="home.html" class="user-box" style="background: #fff; text-decoration: none; color: #333;">
+                        <i class="fa-solid fa-home me-1 text-primary"></i> Trang chủ
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="main-content">
+    <div class="container py-4">
+        <div class="page-header">
+            <h1><i class="fa-solid fa-receipt me-2"></i> Lịch sử đơn hàng</h1>
+            <p>Xem và quản lý tất cả các đơn hàng của bạn</p>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-group">
+                <label>Trạng thái</label>
+                <select id="statusFilter" onchange="filterOrders()">
+                    <option value="">Tất cả</option>
+                    <option value="pending">Chờ xử lý</option>
+                    <option value="processing">Đang xử lý</option>
+                    <option value="completed">Hoàn thành</option>
+                    <option value="cancelled">Đã hủy</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Sắp xếp</label>
+                <select id="sortFilter" onchange="sortOrders()">
+                    <option value="newest">Mới nhất</option>
+                    <option value="oldest">Cũ nhất</option>
+                    <option value="highest">Giá cao nhất</option>
+                    <option value="lowest">Giá thấp nhất</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="orders-container" id="ordersList"></div>
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon">
+                <i class="fa-solid fa-inbox"></i>
+            </div>
+            <div class="empty-text">Chưa có đơn hàng nào</div>
+            <a href="home.html" class="btn btn-primary">
+                <i class="fa-solid fa-shopping-bag me-1"></i> Bắt đầu mua sắm
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container py-4">
+        <p>&copy; 2026 ACC CLONE GAME Shop. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBjYZjKVUDuMGRKH0Fvd0Yx4ZjVRvFjrCY",
+        authDomain: "ngbach-shop.firebaseapp.com",
+        databaseURL: "https://ngbach-shop-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "ngbach-shop",
+        storageBucket: "ngbach-shop.appspot.com",
+        messagingSenderId: "652846893826",
+        appId: "1:652846893826:web:9d0b57ab7cc4d9dd37ce34"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+
+    let allOrders = [];
+
+    window.addEventListener('DOMContentLoaded', function() {
+        loadOrders();
+    });
+
+    function loadOrders() {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                db.ref(`sys_orders`).orderByChild('userId').equalTo(user.uid).once('value', snapshot => {
+                    const orders = snapshot.val() || {};
+                    allOrders = Object.entries(orders).map(([key, order]) => ({
+                        id: key,
+                        ...order
+                    }));
+
+                    if (allOrders.length === 0) {
+                        document.getElementById('emptyState').style.display = 'block';
+                        document.getElementById('ordersList').innerHTML = '';
+                    } else {
+                        document.getElementById('emptyState').style.display = 'none';
+                        displayOrders(allOrders);
+                    }
+                });
+            }
+        });
+    }
+
+    function displayOrders(orders) {
+        const ordersList = document.getElementById('ordersList');
+        ordersList.innerHTML = '';
+
+        orders.forEach(order => {
+            const items = order.items || [];
+            const statusClass = `status-${order.status || 'pending'}`;
+            const statusText = getStatusText(order.status);
+
+            const itemsHTML = items.map(item => `
+                <div class="order-item">
+                    <img src="${item.img}" class="item-image" alt="${item.name}">
+                    <div class="item-details">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-qty">Số lượng: <strong>${item.qty}</strong></div>
+                    </div>
+                    <div class="item-price">${parseInt(item.price).toLocaleString()}đ</div>
+                </div>
+            `).join('');
+
+            const orderHTML = `
+                <div class="order-card">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-id">Đơn hàng #${order.id}</div>
+                            <div style="font-size: 0.85rem; color: #94a3b8;">Ngày: ${new Date(order.createdAt).toLocaleDateString('vi-VN')}</div>
+                        </div>
+                        <span class="order-status ${statusClass}">${statusText}</span>
+                    </div>
+
+                    <div class="order-body">
+                        ${itemsHTML}
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-item">
+                            <div class="summary-label">Tổng tiền</div>
+                            <div class="summary-value">${parseInt(order.total).toLocaleString()}đ</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Phương thức</div>
+                            <div class="summary-value" style="color: #0d6efd;">${order.paymentMethod || 'Chuyển khoản'}</div>
+                        </div>
+                    </div>
+
+                    <div class="order-meta">
+                        <div class="meta-item">
+                            <i class="fa-solid fa-map-marker"></i>
+                            <span>${order.address || 'Chưa có địa chỉ'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>${order.email || 'N/A'}</span>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <button class="action-btn btn-view" onclick="viewOrderDetail('${order.id}')">
+                            <i class="fa-solid fa-eye me-1"></i> Xem chi tiết
+                        </button>
+                        ${order.status !== 'cancelled' && order.status !== 'completed' ? 
+                            `<button class="action-btn btn-cancel" onclick="cancelOrder('${order.id}')">
+                                <i class="fa-solid fa-times me-1"></i> Hủy đơn
+                            </button>` : ''}
+                    </div>
+                </div>
+            `;
+            ordersList.innerHTML += orderHTML;
+        });
+    }
+
+    function getStatusText(status) {
+        const statusMap = {
+            'pending': 'Chờ xử lý',
+            'processing': 'Đang xử lý',
+            'completed': 'Hoàn thành',
+            'cancelled': 'Đã hủy'
+        };
+        return statusMap[status] || 'Chờ xử lý';
+    }
+
+    function filterOrders() {
+        const status = document.getElementById('statusFilter').value;
+        const filtered = status ? allOrders.filter(o => o.status === status) : allOrders;
+        displayOrders(filtered);
+    }
+
+    function sortOrders() {
+        const sortType = document.getElementById('sortFilter').value;
+        let sorted = [...allOrders];
+
+        switch(sortType) {
+            case 'newest':
+                sorted.sort((a, b) => b.createdAt - a.createdAt);
+                break;
+            case 'oldest':
+                sorted.sort((a, b) => a.createdAt - b.createdAt);
+                break;
+            case 'highest':
+                sorted.sort((a, b) => b.total - a.total);
+                break;
+            case 'lowest':
+                sorted.sort((a, b) => a.total - b.total);
+                break;
+        }
+
+        displayOrders(sorted);
+    }
+
+    function viewOrderDetail(orderId) {
+        alert('Chi tiết đơn hàng #' + orderId);
+    }
+
+    function cancelOrder(orderId) {
+        if (confirm('Bạn có chắc muốn hủy đơn hàng này?')) {
+            db.ref(`sys_orders/${orderId}`).update({
+                status: 'cancelled'
+            }).then(() => {
+                alert('Đã hủy đơn hàng!');
+                loadOrders();
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

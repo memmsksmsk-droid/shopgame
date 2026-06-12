@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chi Tiết Sản Phẩm | ACC CLONE GAME</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --bg-light: #f8fafc;
+            --text-main: #333333;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: var(--text-main);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .main-content {
+            flex: 1;
+            padding-top: 90px;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(241, 245, 249, 0.3);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1050;
+            box-shadow: none;
+            padding: 10px 0;
+        }
+
+        .logo-text {
+            font-size: 1.35rem;
+            letter-spacing: 0.8px;
+            background: linear-gradient(135deg, #0d6efd 0%, #ff1493 50%, #0d6efd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+        }
+
+        .logo-shop {
+            font-weight: 900;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #ff1493 0%, #ff0080 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.4));
+        }
+
+        .user-box {
+            background: rgba(248, 250, 252, 0.4) !important;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 50rem;
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .user-box:hover {
+            background: rgba(241, 245, 249, 0.6) !important;
+        }
+
+        .dropdown-menu {
+            background: #ffffff !important;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8fafc;
+            color: #0d6efd;
+        }
+
+        /* --- BREADCRUMB --- */
+        .breadcrumb-custom {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 30px;
+        }
+
+        .breadcrumb-custom a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* --- PRODUCT DETAIL CONTAINER --- */
+        .product-detail-container {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .product-image-section {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .wishlist-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .wishlist-btn.added {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: white;
+        }
+
+        /* --- PRODUCT INFO --- */
+        .product-info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .product-header {
+            border-bottom: 2px solid rgba(226, 232, 240, 0.3);
+            padding-bottom: 20px;
+        }
+
+        .product-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .stars {
+            color: #fbbf24;
+        }
+
+        .rating-count {
+            color: #64748b;
+        }
+
+        /* --- PRICE SECTION --- */
+        .price-section {
+            background: linear-gradient(135deg, rgba(13, 110, 253, 0.1), rgba(239, 68, 68, 0.1));
+            border: 2px solid rgba(13, 110, 253, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .price-item {
+            text-align: center;
+        }
+
+        .price-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .price-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #ef4444;
+        }
+
+        .old-price {
+            font-size: 1rem;
+            color: #94a3b8;
+            text-decoration: line-through;
+        }
+
+        /* --- DESCRIPTION --- */
+        .description-section {
+            background: rgba(248, 250, 252, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .description-section h5 {
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .description-section p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        /* --- FEATURES --- */
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.2);
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .features-list i {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* --- ACTIONS --- */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .action-btn {
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-buy-now {
+            background: linear-gradient(135deg, #0d6efd 0%, #0052cc 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+        .btn-buy-now:hover {
+            box-shadow: 0 6px 16px rgba(13, 110, 253, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-add-cart {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-add-cart:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* --- QUANTITY --- */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(248, 250, 252, 0.5);
+            border-radius: 8px;
+            padding: 10px 15px;
+            width: fit-content;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-color);
+            transition: all 0.2s ease;
+        }
+
+        .qty-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .qty-display {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* --- REVIEWS SECTION --- */
+        .reviews-section {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(226, 232, 240, 0.3);
+        }
+
+        .reviews-header h3 {
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+
+        .btn-add-review {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-add-review:hover {
+            background: #0052cc;
+        }
+
+        .review-item {
+            background: rgba(248, 250, 252, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .reviewer-name {
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .review-rating {
+            color: #fbbf24;
+        }
+
+        .review-date {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .review-text {
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* --- RELATED PRODUCTS --- */
+        .related-products {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .related-products h3 {
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+        }
+
+        .product-card-related {
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid #1a1a1a;
+            border-radius: 8px;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .product-card-related:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-img-related {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f1ff 100%);
+        }
+
+        .product-info-related {
+            padding: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .product-name-related {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price-related {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #ef4444;
+            margin-bottom: 8px;
+        }
+
+        .product-btn-quick {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .product-btn-quick:hover {
+            background: #0052cc;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(226, 232, 240, 0.3);
+            padding: 40px 0;
+            margin-top: 60px;
+            color: #64748b;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .product-detail-container {
+                padding: 15px;
+            }
+
+            .product-image-section {
+                min-height: 280px;
+                padding: 15px;
+            }
+
+            .product-name {
+                font-size: 1.4rem;
+            }
+
+            .price-section {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .product-detail-container > .row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="home.html">
+            <img src="logo.jpg" alt="logo" class="rounded-circle shadow-sm" 
+                 style="width: 42px; height: 42px; object-fit: cover; border: 2px solid #0d6efd;">
+            <span class="logo-text fw-bold">bach <span class="logo-shop">shop</span></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navContent">
+            <ul class="navbar-nav ms-auto align-items-center gap-3 mt-3 mt-lg-0">
+                <li class="nav-item">
+                    <div class="user-box" style="background: #fff;">
+                        <i class="fa-solid fa-wallet me-1"></i> <span id="userBalance">0đ</span>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="home.html" class="user-box shadow-sm text-primary fw-bold" style="background: #fff; text-decoration: none;">
+                        <i class="fa-solid fa-cart-shopping me-1"></i> Giỏ hàng
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle user-box" href="#" data-bs-toggle="dropdown" style="background: #fff; cursor: pointer;">
+                        <i class="fa-solid fa-circle-user text-primary me-2"></i> Tài khoản
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="account.html">Thông tin tài khoản</a></li>
+                        <li><a class="dropdown-item" href="order-history.html">Lịch sử đơn hàng</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="main-content">
+    <div class="container py-4">
+        <div class="breadcrumb-custom">
+            <a href="home.html">Trang chủ</a> / <span id="breadcrumb-name">Sản phẩm</span>
+        </div>
+
+        <div class="product-detail-container">
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="product-image-section">
+                        <img id="productImage" src="" alt="Sản phẩm" class="product-image">
+                        <button class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="product-info-section">
+                        <div class="product-header">
+                            <h1 class="product-name" id="productName">Tên sản phẩm</h1>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                </div>
+                                <span class="rating-count">(<span id="ratingCount">0</span> đánh giá)</span>
+                            </div>
+                        </div>
+
+                        <div class="price-section">
+                            <div class="price-item">
+                                <div class="price-label">Giá</div>
+                                <div class="price-value" id="productPrice">0đ</div>
+                            </div>
+                            <div class="price-item">
+                                <div class="price-label">Kho hàng</div>
+                                <div class="price-value text-success" id="stockCount">999</div>
+                            </div>
+                        </div>
+
+                        <div class="description-section">
+                            <h5>Mô tả sản phẩm</h5>
+                            <p id="productDescription">Mô tả chi tiết sản phẩm sẽ hiển thị ở đây...</p>
+                            
+                            <h5 style="margin-top: 20px;">Tính năng nổi bật</h5>
+                            <ul class="features-list" id="featuresList">
+                                <li><i class="fa-solid fa-check"></i> Tính năng 1</li>
+                                <li><i class="fa-solid fa-check"></i> Tính năng 2</li>
+                                <li><i class="fa-solid fa-check"></i> Tính năng 3</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="quantity-selector">
+                                <button class="qty-btn" onclick="decreaseQty()"><i class="fa-solid fa-minus"></i></button>
+                                <div class="qty-display" id="qtyDisplay">1</div>
+                                <button class="qty-btn" onclick="increaseQty()"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="action-btn btn-buy-now" onclick="buyNow()">
+                                <i class="fa-solid fa-check-circle"></i> Mua Ngay
+                            </button>
+                            <button class="action-btn btn-add-cart" onclick="addToCart()">
+                                <i class="fa-solid fa-cart-plus"></i> Thêm giỏ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews-section">
+            <div class="reviews-header">
+                <h3>Đánh giá & Bình luận</h3>
+                <button class="btn-add-review" onclick="openReviewModal()">
+                    <i class="fa-solid fa-plus me-1"></i> Viết đánh giá
+                </button>
+            </div>
+            <div id="reviewsList"></div>
+        </div>
+
+        <div class="related-products">
+            <h3>Sản phẩm liên quan</h3>
+            <div class="row g-3" id="relatedProductsList"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background: white; border: 1px solid #e2e8f0;">
+            <div class="modal-header" style="background: #f8fafc;">
+                <h5 class="modal-title">Viết đánh giá</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Đánh giá</label>
+                    <div id="ratingSelector" class="d-flex gap-2">
+                        <i class="fa-solid fa-star" onclick="setRating(1)" style="font-size: 2rem; cursor: pointer; color: #ccc;"></i>
+                        <i class="fa-solid fa-star" onclick="setRating(2)" style="font-size: 2rem; cursor: pointer; color: #ccc;"></i>
+                        <i class="fa-solid fa-star" onclick="setRating(3)" style="font-size: 2rem; cursor: pointer; color: #ccc;"></i>
+                        <i class="fa-solid fa-star" onclick="setRating(4)" style="font-size: 2rem; cursor: pointer; color: #ccc;"></i>
+                        <i class="fa-solid fa-star" onclick="setRating(5)" style="font-size: 2rem; cursor: pointer; color: #ccc;"></i>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Bình luận</label>
+                    <textarea class="form-control" id="reviewText" rows="4" placeholder="Viết bình luận của bạn..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer" style="background: #f8fafc;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="submitReview()">Gửi đánh giá</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="mt-5">
+    <div class="container text-center py-4">
+        <p>&copy; 2026 ACC CLONE GAME Shop. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js"></script>
+
+<script>
+    // Firebase config
+    const firebaseConfig = {
+        apiKey: "AIzaSyBjYZjKVUDuMGRKH0Fvd0Yx4ZjVRvFjrCY",
+        authDomain: "ngbach-shop.firebaseapp.com",
+        databaseURL: "https://ngbach-shop-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "ngbach-shop",
+        storageBucket: "ngbach-shop.appspot.com",
+        messagingSenderId: "652846893826",
+        appId: "1:652846893826:web:9d0b57ab7cc4d9dd37ce34"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const auth = firebase.auth();
+
+    let currentProductId = null;
+    let currentQuantity = 1;
+    let currentRating = 0;
+
+    // Get product ID from URL
+    window.addEventListener('DOMContentLoaded', function() {
+        const params = new URLSearchParams(window.location.search);
+        currentProductId = params.get('id');
+        if (currentProductId) {
+            loadProductDetail();
+            loadReviews();
+            loadRelatedProducts();
+        }
+    });
+
+    function loadProductDetail() {
+        db.ref(`sys_products/${currentProductId}`).once('value', snapshot => {
+            const product = snapshot.val();
+            if (product) {
+                document.getElementById('productName').textContent = product.name;
+                document.getElementById('productImage').src = product.img;
+                document.getElementById('productPrice').textContent = parseInt(product.price).toLocaleString() + 'đ';
+                document.getElementById('productDescription').textContent = product.desc || 'Sản phẩm chất lượng cao';
+                document.getElementById('stockCount').textContent = product.stock || 999;
+                document.getElementById('breadcrumb-name').textContent = product.name;
+            }
+        });
+    }
+
+    function loadReviews() {
+        db.ref(`reviews/${currentProductId}`).once('value', snapshot => {
+            const reviews = snapshot.val() || {};
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = '';
+
+            let totalRating = 0;
+            let reviewCount = 0;
+
+            Object.entries(reviews).forEach(([key, review]) => {
+                reviewCount++;
+                totalRating += review.rating;
+
+                const reviewHTML = `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div>
+                                <div class="reviewer-name">${review.userName}</div>
+                                <div class="review-date">${new Date(review.timestamp).toLocaleDateString('vi-VN')}</div>
+                            </div>
+                            <div class="review-rating">
+                                ${'⭐'.repeat(review.rating)}
+                            </div>
+                        </div>
+                        <div class="review-text">${review.text}</div>
+                    </div>
+                `;
+                reviewsList.innerHTML += reviewHTML;
+            });
+
+            if (reviewCount > 0) {
+                document.getElementById('ratingCount').textContent = reviewCount;
+            }
+        });
+    }
+
+    function loadRelatedProducts() {
+        db.ref('sys_products').orderByChild('category').once('value', snapshot => {
+            const products = snapshot.val() || {};
+            const relatedList = document.getElementById('relatedProductsList');
+            relatedList.innerHTML = '';
+
+            let count = 0;
+            Object.entries(products).forEach(([key, product]) => {
+                if (key !== currentProductId && count < 4) {
+                    count++;
+                    const productHTML = `
+                        <div class="col-md-6 col-lg-3">
+                            <div class="product-card-related" onclick="viewProduct('${key}')">
+                                <img src="${product.img}" class="product-img-related" alt="${product.name}">
+                                <div class="product-info-related">
+                                    <div class="product-name-related">${product.name}</div>
+                                    <div class="product-price-related">${parseInt(product.price).toLocaleString()}đ</div>
+                                    <button class="product-btn-quick" onclick="event.stopPropagation(); addToCartQuick('${key}')">
+                                        <i class="fa-solid fa-cart-plus"></i> Thêm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    relatedList.innerHTML += productHTML;
+                }
+            });
+        });
+    }
+
+    function increaseQty() {
+        currentQuantity++;
+        document.getElementById('qtyDisplay').textContent = currentQuantity;
+    }
+
+    function decreaseQty() {
+        if (currentQuantity > 1) {
+            currentQuantity--;
+            document.getElementById('qtyDisplay').textContent = currentQuantity;
+        }
+    }
+
+    function addToCart() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let found = false;
+
+        for (let item of cart) {
+            if (item.id === currentProductId) {
+                item.qty += currentQuantity;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            db.ref(`sys_products/${currentProductId}`).once('value', snapshot => {
+                const product = snapshot.val();
+                cart.push({
+                    id: currentProductId,
+                    name: product.name,
+                    price: product.price,
+                    img: product.img,
+                    qty: currentQuantity
+                });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert('Đã thêm vào giỏ hàng!');
+            });
+        } else {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Đã thêm vào giỏ hàng!');
+        }
+    }
+
+    function buyNow() {
+        addToCart();
+        window.location.href = 'cart.html';
+    }
+
+    function toggleWishlist() {
+        const btn = document.getElementById('wishlistBtn');
+        btn.classList.toggle('added');
+        
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        if (btn.classList.contains('added')) {
+            if (!wishlist.includes(currentProductId)) {
+                wishlist.push(currentProductId);
+            }
+        } else {
+            wishlist = wishlist.filter(id => id !== currentProductId);
+        }
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    }
+
+    function openReviewModal() {
+        new bootstrap.Modal(document.getElementById('reviewModal')).show();
+    }
+
+    function setRating(rating) {
+        currentRating = rating;
+        const stars = document.querySelectorAll('#ratingSelector i');
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.style.color = '#fbbf24';
+            } else {
+                star.style.color = '#ccc';
+            }
+        });
+    }
+
+    function submitReview() {
+        const text = document.getElementById('reviewText').value;
+        if (!currentRating || !text) {
+            alert('Vui lòng đánh giá và viết bình luận!');
+            return;
+        }
+
+        const user = auth.currentUser;
+        if (!user) {
+            alert('Vui lòng đăng nhập trước!');
+            return;
+        }
+
+        const reviewId = Date.now();
+        db.ref(`reviews/${currentProductId}/${reviewId}`).set({
+            userId: user.uid,
+            userName: user.email,
+            rating: currentRating,
+            text: text,
+            timestamp: new Date().getTime()
+        }).then(() => {
+            alert('Gửi đánh giá thành công!');
+            bootstrap.Modal.getInstance(document.getElementById('reviewModal')).hide();
+            loadReviews();
+            document.getElementById('reviewText').value = '';
+            currentRating = 0;
+        });
+    }
+
+    function viewProduct(productId) {
+        window.location.href = `product-detail.html?id=${productId}`;
+    }
+
+    function addToCartQuick(productId) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let found = false;
+
+        for (let item of cart) {
+            if (item.id === productId) {
+                item.qty++;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            db.ref(`sys_products/${productId}`).once('value', snapshot => {
+                const product = snapshot.val();
+                cart.push({
+                    id: productId,
+                    name: product.name,
+                    price: product.price,
+                    img: product.img,
+                    qty: 1
+                });
+                localStorage.setItem('cart', JSON.stringify(cart));
+            });
+        } else {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+    }
+</script>
+
+</body>
+</html>

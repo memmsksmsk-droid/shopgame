@@ -7,87 +7,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #0d6efd;
-            --bg-light: #f4f6f9;
-            --text-main: #333333;
-            --border-color: #dee2e6;
-            --success-color: #198754;
-        }
-
-        body { 
-            background-color: var(--bg-light); 
-            color: var(--text-main); 
-            min-height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            padding: 20px; 
-        }
-
-        .checkout-container {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            max-width: 650px;
-            overflow: hidden;
-        }
-
-        .checkout-header {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            padding: 20px 30px;
-        }
-
-        .checkout-body {
-            padding: 30px;
-        }
-
-        .product-spec-card {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 20px;
-        }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px dashed #dee2e6;
-        }
-
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            color: #6c757d;
-            font-weight: 500;
-        }
-
-        .detail-value {
-            font-weight: 700;
-            color: #212529;
-        }
-
-        .price-highlight {
-            font-size: 1.3rem;
-            color: var(--primary-color);
-        }
-
-        /* Giao diện Hộp thông báo Telegram của Admin */
-        .instruction-box {
-            background: rgba(13, 110, 253, 0.04);
-            border: 1px dashed rgba(13, 110, 253, 0.3);
-            border-radius: 8px;
-            padding: 15px;
-            display: none; /* Chỉ hiện khi ấn nút xem đơn hàng */
-        }
+        :root { --primary-color: #0d6efd; --bg-light: #f4f6f9; --border-color: #dee2e6; }
+        body { background-color: var(--bg-light); color: #333; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; }
+        .checkout-container { background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); width: 100%; max-width: 650px; overflow: hidden; }
+        .checkout-header { background: #ffffff; border-bottom: 1px solid var(--border-color); padding: 20px 30px; }
+        .checkout-body { padding: 30px; }
+        .product-spec-card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 20px; }
+        .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #dee2e6; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { color: #6c757d; font-weight: 500; }
+        .detail-value { font-weight: 700; color: #212529; }
+        .price-highlight { font-size: 1.3rem; color: var(--primary-color); }
+        .instruction-box { display: none; }
     </style>
 </head>
 <body>
@@ -104,15 +35,15 @@
     <div class="checkout-body">
         <div id="checkoutContent">
             
-            <div class="product-spec-card mb-4">
+            <div class="product-spec-card mb-4" id="orderSummaryBox">
                 <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-receipt me-2 text-secondary"></i>Thông tin đơn hàng</h6>
                 
                 <div class="detail-row">
                     <span class="detail-label">Tài khoản khách mua</span>
-                    <span class="detail-value" id="buyerEmail">---</span>
+                    <span class="detail-value text-primary" id="buyerEmail">---</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">Tên sản phẩm / Key</span>
+                    <span class="detail-label">Tên sản phẩm</span>
                     <span class="detail-value text-dark" id="productName">---</span>
                 </div>
                 <div class="detail-row">
@@ -125,20 +56,20 @@
                 </div>
             </div>
 
-            <div id="telegramInstruction" class="instruction-box mb-4 text-center">
-                <i class="fa-brands fa-telegram text-info display-6 mb-2"></i>
-                <h6 class="fw-bold text-dark mb-2">ĐƠN HÀNG ĐÃ ĐƯỢC KHỞI TẠO!</h6>
-                <p class="small text-secondary m-0">
-                    Vui lòng nhắn tin trực tiếp vào Telegram: <a href="https://t.me/skibidibach" target="_blank" class="fw-bold text-primary text-decoration-none">@skibidibach</a> của Admin để được hướng dẫn cách cài đặt và nhận key kích hoạt sản phẩm của bạn nhanh nhất.
-                </p>
+            <div id="telegramInstruction" class="instruction-box mb-4 text-center p-4 border-success bg-success bg-opacity-10 border rounded shadow-sm">
+                <i class="fa-solid fa-circle-check text-success display-4 mb-2"></i>
+                <h5 class="fw-bold text-success mb-2">MUA HÀNG THÀNH CÔNG</h5>
+                <p class="small text-muted mb-3">Thông tin tài khoản của bạn nằm ở bên dưới. Hãy copy và lưu lại nhé!</p>
+                <div id="deliveryBox" class="text-start">
+                    </div>
             </div>
 
             <div class="d-grid gap-2">
-                <button id="btnAction" onclick="processOrderCheckout()" class="btn btn-primary py-2.5 fw-bold shadow-sm">
-                    <i class="fa-solid fa-circle-check me-2"></i>XÁC NHẬN ĐẶT HÀNG
+                <button id="btnAction" onclick="processOrderCheckout()" class="btn btn-primary py-3 fw-bold shadow-sm">
+                    <i class="fa-solid fa-wallet me-2"></i>THANH TOÁN NGAY
                 </button>
-                <button id="btnViewOrder" onclick="showTelegramInstruction()" class="btn btn-success py-2.5 fw-bold shadow-sm" style="display: none;">
-                    <i class="fa-solid fa-eye me-2"></i>XEM ĐƠN HÀNG CỦA BẠN
+                <button id="btnViewOrder" onclick="showAccountInformation()" class="btn btn-success py-3 fw-bold shadow-sm" style="display: none;">
+                    <i class="fa-solid fa-eye me-2"></i>XEM TÀI KHOẢN ĐÃ MUA
                 </button>
             </div>
 
@@ -158,12 +89,9 @@
 <script>
     const firebaseConfig = {
         apiKey: "AIzaSyD_8idShoCkxrEqFkTY4HZYEkTINtHbw7I",
-  authDomain: "shopgame-b6cc6.firebaseapp.com",
-  databaseURL: "https://shopgame-b6cc6-default-rtdb.firebaseio.com",
-  projectId: "shopgame-b6cc6",
-  storageBucket: "shopgame-b6cc6.firebasestorage.app",
-  messagingSenderId: "597813903573",
-  appId: "1:597813903573:web:3d64f5f96ad87bad95225c",
+        authDomain: "shopgame-b6cc6.firebaseapp.com",
+        databaseURL: "https://shopgame-b6cc6-default-rtdb.firebaseio.com",
+        projectId: "shopgame-b6cc6"
     };
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
@@ -176,54 +104,240 @@
         if (!currentEmail) { alert("Vui lòng đăng nhập!"); window.location.href = 'index.html'; return; }
         document.getElementById('buyerEmail').innerText = currentEmail;
 
+        // Cố gắng tìm dữ liệu từ orderData (từ cart.html)
+        const orderData = localStorage.getItem('orderData');
         const productData = localStorage.getItem('selectedProduct');
-        if (!productData) {
+
+        if (orderData) {
+            // Dữ liệu từ giỏ hàng mới (nhiều sản phẩm)
+            const order = JSON.parse(orderData);
+            
+            // Hiển thị tóm tắt
+            const itemsText = order.items.map(item => `${item.name} (x${item.count})`).join(', ');
+            document.getElementById('productName').innerText = itemsText;
+            document.getElementById('productQuantity').innerText = order.items.length;
+            document.getElementById('productPrice').innerText = order.total.toLocaleString() + 'đ';
+            
+            window.orderInfo = order;
+            window.isBulkOrder = true;
+        } else if (productData) {
+            // Dữ liệu cũ (sản phẩm đơn lẻ)
+            selectedProduct = JSON.parse(productData);
+            document.getElementById('productName').innerText = selectedProduct.name;
+            document.getElementById('productQuantity').innerText = selectedProduct.count || 1;
+            document.getElementById('productPrice').innerText = ((selectedProduct.price || 0) * (selectedProduct.count || 1)).toLocaleString() + 'đ';
+            window.isBulkOrder = false;
+        } else {
             document.getElementById('checkoutContent').style.display = 'none';
             document.getElementById('emptyCartPlaceholder').style.display = 'block';
             return;
         }
-
-        selectedProduct = JSON.parse(productData);
-        document.getElementById('productName').innerText = selectedProduct.name;
-        document.getElementById('productQuantity').innerText = selectedProduct.count || 1;
-        document.getElementById('productPrice').innerText = ((selectedProduct.price || 0) * (selectedProduct.count || 1)).toLocaleString() + 'đ';
     };
 
     function processOrderCheckout() {
-        const orderPrice = (selectedProduct.price || 0) * (selectedProduct.count || 1);
-        
-        // Tìm user trên Firebase và kiểm tra tiền
-        db.ref('sys_users').orderByChild('email').equalTo(currentEmail).once('value', snap => {
-            if(!snap.exists()) return;
-            const userKey = Object.keys(snap.val())[0];
-            const userBalance = snap.val()[userKey].balance || 0;
+        const btn = document.getElementById('btnAction');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i>ĐANG KIỂM TRA KHO...';
 
-            if (userBalance < orderPrice) {
-                if (confirm("Số dư không đủ! Bạn có muốn nạp tiền?")) window.location.href = 'banking.html';
-                return;
+        if (window.isBulkOrder) {
+            processBulkOrder();
+        } else {
+            processSingleProduct();
+        }
+    }
+
+    function processSingleProduct() {
+        const orderPrice = (selectedProduct.price || 0) * (selectedProduct.count || 1);
+        const qty = selectedProduct.count || 1;
+
+        // 1. Kiểm tra kho sản phẩm trên DB
+        db.ref('sys_products/' + selectedProduct.id).once('value', prodSnap => {
+            if(!prodSnap.exists()) { alert("Sản phẩm này không còn tồn tại trên hệ thống!"); resetCheckoutBtn(); return; }
+            
+            let prodDb = prodSnap.val();
+            let accs = prodDb.accounts || [];
+            
+            if (accs.length < qty) {
+                alert(`Rất tiếc! Số lượng trong kho không đủ (Hiện còn: ${accs.length} acc).`);
+                resetCheckoutBtn(); return;
             }
 
-            // Trừ tiền và tạo đơn hàng trên Firebase
-            db.ref('sys_users/' + userKey).update({ balance: userBalance - orderPrice }).then(() => {
-                db.ref('sys_orders').push({
+            // 2. Kiểm tra tài khoản và số dư ví
+            db.ref('sys_users').orderByChild('email').equalTo(currentEmail).once('value', snap => {
+                if(!snap.exists()) { alert("Lỗi xác thực người dùng!"); resetCheckoutBtn(); return; }
+                
+                const userKey = Object.keys(snap.val())[0];
+                const userBalance = snap.val()[userKey].balance || 0;
+
+                if (userBalance < orderPrice) {
+                    if (confirm("Số dư ví không đủ! Bạn có muốn nạp tiền ngay?")) window.location.href = 'banking.html';
+                    resetCheckoutBtn(); return;
+                }
+
+                // 3. Tiến hành Mua: Cắt acc khỏi Kho & Trừ tiền & Lưu Đơn hàng
+                const boughtAccounts = accs.splice(0, qty);
+                
+                let updates = {};
+                updates['sys_users/' + userKey + '/balance'] = userBalance - orderPrice;
+                updates['sys_products/' + selectedProduct.id + '/accounts'] = accs;
+                
+                let newOrderKey = db.ref('sys_orders').push().key;
+                updates['sys_orders/' + newOrderKey] = {
                     userEmail: currentEmail,
+                    productId: selectedProduct.id,
                     productName: selectedProduct.name,
-                    count: selectedProduct.count || 1,
+                    count: qty,
                     totalPrice: orderPrice,
                     time: new Date().toLocaleString(),
-                    status: 'Thành công'
-                }).then(() => {
-                    alert("Đặt hàng thành công!");
+                    status: 'Thành công',
+                    deliveredAccounts: boughtAccounts
+                };
+
+                db.ref().update(updates).then(() => {
+                    alert("Thanh toán thành công! Nhấn 'XEM TÀI KHOẢN ĐÃ MUA' để lấy acc.");
                     document.getElementById('btnAction').style.display = 'none';
                     document.getElementById('btnViewOrder').style.display = 'block';
+                    window.latestBoughtAccounts = boughtAccounts;
+                }).catch(err => {
+                    alert("Giao dịch bị gián đoạn: " + err.message);
+                    resetCheckoutBtn();
                 });
             });
         });
     }
 
-    function showTelegramInstruction() {
-        document.getElementById('telegramInstruction').style.display = 'block';
+    function processBulkOrder() {
+        const order = window.orderInfo;
+        const totalPrice = order.total;
+        let allBoughtAccounts = [];
+
+        // Kiểm tra kho cho tất cả sản phẩm
+        let checkPromises = order.items.map(item => {
+            return new Promise((resolve, reject) => {
+                db.ref('sys_products/' + item.id).once('value', snap => {
+                    if(!snap.exists()) {
+                        reject(new Error(`Sản phẩm ${item.name} không còn tồn tại`));
+                    } else {
+                        let accs = snap.val().accounts || [];
+                        if (accs.length < item.count) {
+                            reject(new Error(`Kho không đủ cho sản phẩm ${item.name} (còn: ${accs.length}, cần: ${item.count})`));
+                        } else {
+                            resolve({ item, accs });
+                        }
+                    }
+                });
+            });
+        });
+
+        Promise.all(checkPromises).then(results => {
+            // Kiểm tra tài khoản người dùng
+            db.ref('sys_users').orderByChild('email').equalTo(currentEmail).once('value', snap => {
+                if(!snap.exists()) { alert("Lỗi xác thực người dùng!"); resetCheckoutBtn(); return; }
+                
+                const userKey = Object.keys(snap.val())[0];
+                const userBalance = snap.val()[userKey].balance || 0;
+
+                if (userBalance < totalPrice) {
+                    alert(`Số dư ví không đủ! Cần: ${totalPrice.toLocaleString()}đ, Hiện có: ${userBalance.toLocaleString()}đ`);
+                    if (confirm("Bạn có muốn nạp tiền?")) window.location.href = 'banking.html';
+                    resetCheckoutBtn();
+                    return;
+                }
+
+                // Cắt acc từ kho
+                let updates = {};
+                updates['sys_users/' + userKey + '/balance'] = userBalance - totalPrice;
+
+                results.forEach(({ item, accs }) => {
+                    const boughtAccounts = accs.splice(0, item.count);
+                    allBoughtAccounts.push(...boughtAccounts);
+                    
+                    updates['sys_products/' + item.id + '/accounts'] = accs;
+                    
+                    let newOrderKey = db.ref('sys_orders').push().key;
+                    updates['sys_orders/' + newOrderKey] = {
+                        userEmail: currentEmail,
+                        productId: item.id,
+                        productName: item.name,
+                        count: item.count,
+                        totalPrice: parseInt(item.price) * item.count,
+                        time: new Date().toLocaleString(),
+                        status: 'Thành công',
+                        deliveredAccounts: boughtAccounts
+                    };
+                });
+
+                db.ref().update(updates).then(() => {
+                    alert("Thanh toán thành công! Nhấn 'XEM TÀI KHOẢN ĐÃ MUA' để lấy acc.");
+                    document.getElementById('btnAction').style.display = 'none';
+                    document.getElementById('btnViewOrder').style.display = 'block';
+                    window.latestBoughtAccounts = allBoughtAccounts;
+                    localStorage.removeItem('orderData');
+                    localStorage.removeItem('sys_cart');
+                }).catch(err => {
+                    alert("Giao dịch bị gián đoạn: " + err.message);
+                    resetCheckoutBtn();
+                });
+            });
+        }).catch(err => {
+            alert("Lỗi: " + err.message);
+            resetCheckoutBtn();
+        });
+    }
+
+    function resetCheckoutBtn() {
+        const btn = document.getElementById('btnAction');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-wallet me-2"></i>THANH TOÁN NGAY';
+    }
+
+    // Hiển thị danh sách Tài khoản cho Khách
+    function showAccountInformation() {
+        const container = document.getElementById('telegramInstruction');
+        const deliveryBox = document.getElementById('deliveryBox');
+        
+        let htmlContent = window.latestBoughtAccounts.map((acc, index) => {
+            // Tách tài khoản mật khẩu. Nếu không có ký tự | thì coi như nguyên 1 khối
+            let parts = acc.split('|');
+            let tk = parts[0] || acc;
+            let mk = parts[1] || '';
+            
+            return `
+            <div class="bg-white p-3 mb-3 border rounded shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
+                    <span class="small fw-bold text-primary"><i class="fa-solid fa-gamepad me-1"></i>Sản phẩm #${index+1}</span>
+                    <button class="btn btn-sm btn-dark py-1 px-2 fw-bold" style="font-size: 0.75rem;" onclick="copyFull('${acc}')"><i class="fa-solid fa-copy me-1"></i>Copy Cả Hai</button>
+                </div>
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text bg-light fw-bold text-secondary" style="width: 50px;">TK:</span>
+                    <input type="text" class="form-control bg-white fw-bold" value="${tk}" readonly id="tk_${index}">
+                    <button class="btn btn-outline-secondary" onclick="copyInput('tk_${index}')"><i class="fa-regular fa-copy"></i></button>
+                </div>
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-light fw-bold text-secondary" style="width: 50px;">MK:</span>
+                    <input type="text" class="form-control bg-white fw-bold" value="${mk}" readonly id="mk_${index}">
+                    <button class="btn btn-outline-secondary" onclick="copyInput('mk_${index}')"><i class="fa-regular fa-copy"></i></button>
+                </div>
+            </div>`;
+        }).join('');
+
+        deliveryBox.innerHTML = htmlContent;
+        container.style.display = 'block';
+        
+        document.getElementById('orderSummaryBox').style.display = 'none';
+        document.getElementById('btnViewOrder').style.display = 'none';
+        
+        // Xóa giỏ hàng ảo sau khi hoàn tất
         localStorage.removeItem('selectedProduct');
+    }
+
+    function copyInput(elementId) {
+        let text = document.getElementById(elementId).value;
+        navigator.clipboard.writeText(text).then(() => alert("Đã copy: " + text));
+    }
+
+    function copyFull(text) {
+        navigator.clipboard.writeText(text).then(() => alert("Đã copy thành công!"));
     }
 </script>
    
