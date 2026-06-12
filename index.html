@@ -7,14 +7,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
+        /* --- GIAO DIỆN TRẮNG ĐEN TỐI GIẢN & SIÊU GỌN CHO MOBILE --- */
         :root {
-            --primary-color: #0d6efd;
-            --success-color: #198754;
-            --bg-body: #f8fafc;
+            --primary-color: #000000;
+            --success-color: #27272a;
+            --bg-body: #f4f4f5;
             --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
+            --border-color: #e4e4e7;
+            --text-main: #18181b;
+            --text-muted: #71717a;
+            --hover-bg: #fafafa;
         }
         body { 
             background-color: var(--bg-body); 
@@ -23,65 +25,79 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-family: 'Segoe UI', Arial, sans-serif;
-            padding: 15px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 10px;
             margin: 0;
         }
         .auth-card { 
             background: var(--card-bg); 
             border: 1px solid var(--border-color); 
-            border-radius: 12px; 
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05); 
-            padding: 24px; 
+            border-radius: 14px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); 
+            padding: 20px 16px; /* Thu nhỏ padding để tăng diện tích hiển thị trên mobile */
             width: 100%; 
-            max-width: 360px; 
+            max-width: 350px; 
             transition: all 0.3s ease;
+        }
+        h4 {
+            letter-spacing: -0.5px;
+            font-size: 1.25rem;
         }
         .nav-tabs {
             border-bottom: 2px solid var(--border-color);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
         .nav-tabs .nav-link {
             color: var(--text-muted);
             font-weight: 600;
             border: none;
             background: none;
-            padding: 8px 4px;
-            font-size: 0.95rem;
+            padding: 6px 4px;
+            font-size: 0.9rem;
         }
         .nav-tabs .nav-link.active {
             color: var(--primary-color);
             border-bottom: 2px solid var(--primary-color);
         }
+        .form-label {
+            margin-bottom: 2px;
+            font-size: 0.8rem;
+        }
         .form-control {
-            border-radius: 8px;
+            border-radius: 6px;
             border-color: var(--border-color);
             padding: 8px 12px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            background-color: var(--hover-bg);
         }
         .form-control:focus {
-            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+            background-color: var(--card-bg);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
         }
         .input-group-text {
             cursor: pointer;
-            background-color: #f8f9fa;
+            background-color: var(--hover-bg);
             border-color: var(--border-color);
-            border-top-right-radius: 8px !important;
-            border-bottom-right-radius: 8px !important;
+            border-top-right-radius: 6px !important;
+            border-bottom-right-radius: 6px !important;
+            color: var(--text-muted);
+            padding: 8px 12px;
+            font-size: 0.85rem;
         }
 
-        /* --- TỐI ƯU LƯỚI THỐNG KÊ GỌN GÀNG --- */
+        /* --- LƯỚI THỐNG KÊ TỐI ƯU KHÔNG GIAN --- */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
+            gap: 8px;
+            margin-bottom: 14px;
         }
         .info-box {
-            background: #f8fafc;
+            background: var(--hover-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 10px;
+            padding: 8px;
             display: flex;
             align-items: center;
         }
@@ -89,9 +105,10 @@
             grid-column: span 2;
         }
         .info-box i {
-            font-size: 18px;
-            width: 30px;
+            font-size: 16px;
+            width: 24px;
             text-align: center;
+            color: var(--primary-color);
         }
         .info-box div {
             margin-left: 6px;
@@ -100,90 +117,68 @@
         .info-box h6 {
             margin: 0;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: var(--text-main);
+            line-height: 1.2;
         }
         .info-box small {
             color: var(--text-muted);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             display: block;
         }
 
-        /* --- FAKE CAPTCHA THU NHỎ TIẾT KIỆM DIỆN TÍCH --- */
-        .fake-captcha {
-            border: 1px solid #d8d8d8;
-            background: #f9f9f9;
+        /* --- NÚT BẤM GỌN NHẸ --- */
+        .btn-custom {
             border-radius: 6px;
             padding: 8px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.2px;
         }
-        .captcha-checkbox {
-            width: 24px;
-            height: 24px;
-            background: #fff;
-            border: 2px solid #c1c1c1;
-            border-radius: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            color: transparent;
+        .btn-dark {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
         }
-        .captcha-checkbox.checked {
-            color: #0f9d58;
-            border-color: transparent;
+        .btn-dark:hover {
+            background-color: #27272a;
+            border-color: #27272a;
         }
-        .captcha-text { 
-            font-size: 0.85rem; 
-            color: #222; 
-            font-weight: 500;
+        .btn-outline-dark {
+            color: var(--primary-color);
+            border-color: var(--border-color);
+            background-color: transparent;
         }
-        .captcha-logo small {
-            font-size: 0.5rem;
-            color: #666;
-            line-height: 1;
-            display: block;
+        .btn-outline-dark:hover {
+            background-color: var(--hover-bg);
+            color: var(--primary-color);
         }
 
-        #catSurprise img {
-            max-height: 100px;
-            border: 2px solid #0f9d58;
-            object-fit: cover;
-        }
-
-        /* --- NÚT ĐĂNG NHẬP GOOGLE TINH TẾ --- */
+        /* --- NÚT GOOGLE --- */
         .social-btn {
             width: 100%;
             font-weight: 600;
             padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            transition: all 0.2s;
+            border-radius: 6px;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: var(--card-bg); 
+            color: var(--text-main); 
+            border: 1px solid var(--border-color); 
         }
-        .btn-google { 
-            background-color: #ffffff; 
-            color: #444; 
-            border: 1px solid #cbd5e1; 
-        }
-        .btn-google:hover { 
-            background-color: #f8fafc; 
-            border-color: #94a3b8;
+        .social-btn:hover { 
+            background-color: var(--hover-bg); 
         }
 
         .divider {
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 16px 0;
+            margin: 12px 0;
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
         }
         .divider::before, .divider::after {
             content: '';
@@ -193,11 +188,14 @@
         .divider:not(:empty)::before { margin-right: .5em; }
         .divider:not(:empty)::after { margin-left: .5em; }
         
-        .btn-custom {
-            border-radius: 8px;
-            padding: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
+        .text-dark-custom { color: var(--text-main) !important; }
+        
+        /* Cố định chiều cao tối thiểu cho Khung chứa Captcha để tránh giật giao diện */
+        #recaptcha-container {
+            min-height: 65px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -205,13 +203,13 @@
 
 <div class="auth-card text-center" id="welcomeView">
     <div class="mb-3">
-        <h4 class="fw-bold text-primary mb-1">ShopGame Uy Tín</h4>
-        <p class="text-muted small mb-0">Khám phá dịch vụ đẳng cấp của chúng tôi</p>
+        <h4 class="fw-bold text-dark-custom mb-1">ShopGame Uy Tín</h4>
+        <p class="text-muted small mb-0" style="font-size: 0.8rem;">Khám phá dịch vụ đẳng cấp của chúng tôi</p>
     </div>
 
     <div class="stats-grid">
         <div class="info-box">
-            <i class="fa-solid fa-users text-primary"></i>
+            <i class="fa-solid fa-users"></i>
             <div>
                 <h6>99,999+</h6>
                 <small>Thành viên</small>
@@ -219,7 +217,7 @@
         </div>
         
         <div class="info-box">
-            <i class="fa-solid fa-box-open text-success"></i>
+            <i class="fa-solid fa-box-open"></i>
             <div>
                 <h6>150,000+</h6>
                 <small>Đơn hàng</small>
@@ -227,7 +225,7 @@
         </div>
 
         <div class="info-box full-width">
-            <i class="fa-solid fa-calendar-check text-warning"></i>
+            <i class="fa-solid fa-calendar-check"></i>
             <div>
                 <h6>Từ năm 2020</h6>
                 <small>Hệ thống vận hành uy tín lâu năm</small>
@@ -236,10 +234,10 @@
     </div>
 
     <div class="d-grid gap-2">
-        <button type="button" class="btn btn-primary btn-custom" onclick="showAuth('login')">
+        <button type="button" class="btn btn-dark btn-custom" onclick="showAuth('login')">
             <i class="fa-solid fa-right-to-bracket me-1"></i> ĐĂNG NHẬP HỆ THỐNG
         </button>
-        <button type="button" class="btn btn-outline-success btn-custom" onclick="showAuth('register')">
+        <button type="button" class="btn btn-outline-dark btn-custom" onclick="showAuth('register')">
             <i class="fa-solid fa-user-plus me-1"></i> TẠO TÀI KHOẢN MỚI
         </button>
     </div>
@@ -247,8 +245,8 @@
 
 <div class="auth-card d-none" id="authView">
     <div class="text-center mb-3">
-        <h4 class="fw-bold text-primary mb-1">Cửa Hàng Tài Khoản</h4>
-        <p class="text-muted small mb-0">Vui lòng xác thực tài khoản để tiếp tục</p>
+        <h4 class="fw-bold text-dark-custom mb-1">Cửa Hàng Tài Khoản</h4>
+        <p class="text-muted small mb-0" style="font-size: 0.8rem;">Vui lòng xác thực tài khoản để tiếp tục</p>
     </div>
 
     <ul class="nav nav-tabs nav-justified" id="authTabs">
@@ -260,29 +258,15 @@
         </li>
     </ul>
 
-    <div class="fake-captcha mb-3" onclick="verifyFakeCaptcha()">
-        <div class="d-flex align-items-center">
-            <div class="captcha-checkbox me-2" id="captchaBox"></div>
-            <span class="captcha-text">Tôi không phải là người máy</span>
-        </div>
-        <div class="captcha-logo text-center">
-            <i class="fa-brands fa-google text-primary d-block mb-0 fs-6"></i>
-            <small>reCAPTCHA</small>
-        </div>
-    </div>
-
-    <div id="catSurprise" class="text-center d-none mb-3">
-        <img src="logo.jpg" alt="Xác Thực" class="img-fluid rounded shadow-sm">
-        <p class="text-success small fw-bold mt-1 mb-0" style="font-size: 0.8rem;"><i class="fa-solid fa-circle-check"></i> Đã xác thực thành công!</p>
-    </div>
+    <div id="recaptcha-container" class="mb-2"></div>
 
     <div id="loginFormSection">
         <div class="mb-2">
-            <label class="form-label small fw-semibold mb-1">Tài khoản / Email</label>
+            <label class="form-label small fw-semibold">Tài khoản / Email</label>
             <input type="text" id="lEmail" class="form-control" placeholder="Tên đăng nhập hoặc email...">
         </div>
         <div class="mb-2">
-            <label class="form-label small fw-semibold mb-1">Mật khẩu</label>
+            <label class="form-label small fw-semibold">Mật khẩu</label>
             <div class="input-group">
                 <input type="password" id="lPass" class="form-control" placeholder="Mật khẩu của bạn...">
                 <span class="input-group-text" onclick="togglePassword('lPass', this)">
@@ -290,27 +274,27 @@
                 </span>
             </div>
         </div>
-        <div class="mb-3 form-check">
+        <div class="mb-2 form-check" style="text-align: left;">
             <input class="form-check-input" type="checkbox" id="rememberMe">
-            <label class="form-check-label small text-muted" for="rememberMe">Ghi nhớ đăng nhập</label>
+            <label class="form-check-label small text-muted" for="rememberMe" style="font-size: 0.8rem;">Ghi nhớ đăng nhập</label>
         </div>
-        <button type="button" onclick="doLogin()" class="btn btn-primary w-100 btn-custom mb-1">ĐĂNG NHẬP</button>
+        <button type="button" onclick="doLogin()" class="btn btn-dark w-100 btn-custom mb-1">ĐĂNG NHẬP</button>
 
         <div class="divider">Hoặc</div>
         
-        <button type="button" class="btn social-btn btn-google shadow-sm" onclick="loginWithGoogle()">
-            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style="width: 18px; height: 18px; margin-right: 8px;">
+        <button type="button" class="btn social-btn shadow-sm" onclick="loginWithGoogle()">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style="width: 16px; height: 16px; margin-right: 6px;">
             Tiếp tục với Google
         </button>
     </div>
 
     <div id="registerFormSection" class="d-none">
         <div class="mb-2">
-            <label class="form-label small fw-semibold mb-1">Địa chỉ Email</label>
+            <label class="form-label small fw-semibold">Địa chỉ Email</label>
             <input type="email" id="rEmail" class="form-control" placeholder="example@gmail.com">
         </div>
         <div class="mb-3">
-            <label class="form-label small fw-semibold mb-1">Mật khẩu bảo mật</label>
+            <label class="form-label small fw-semibold">Mật khẩu bảo mật</label>
             <div class="input-group">
                 <input type="password" id="rPass" class="form-control" placeholder="Tối thiểu 6 ký tự...">
                 <span class="input-group-text" onclick="togglePassword('rPass', this)">
@@ -318,11 +302,11 @@
                 </span>
             </div>
         </div>
-        <button type="button" onclick="doRegister()" class="btn btn-success w-100 btn-custom">ĐĂNG KÝ TÀI KHOẢN</button>
+        <button type="button" onclick="doRegister()" class="btn btn-dark w-100 btn-custom">ĐĂNG KÝ TÀI KHOẢN</button>
     </div>
     
     <div class="text-center mt-2">
-        <button type="button" class="btn btn-link text-muted small text-decoration-none p-0" onclick="showWelcome()" style="font-size: 0.8rem;">
+        <button type="button" class="btn btn-link text-muted small text-decoration-none p-0" onclick="showWelcome()" style="font-size: 0.75rem;">
             <i class="fa-solid fa-arrow-left me-1"></i> Quay lại trang giới thiệu
         </button>
     </div>
@@ -333,7 +317,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
-    // CẤU HÌNH FIREBASE GIỮ NGUYÊN TỪ DỰ ÁN CỦA BẠN
+    // CẤU HÌNH FIREBASE GIỮ NGUYÊN
     const firebaseConfig = {
         apiKey: "AIzaSyD_8idShoCkxrEqFkTY4HZYEkTINtHbw7I",
         authDomain: "shopgame-b6cc6.firebaseapp.com",
@@ -347,30 +331,39 @@
     const db = firebase.database();
 
     const googleProvider = new firebase.auth.GoogleAuthProvider();
+    
     let isRobotVerified = false;
+    let recaptchaRendered = false;
+
+    function initRecaptcha() {
+        if (!recaptchaRendered) {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                'size': 'compact', 
+                'callback': (response) => {
+                    isRobotVerified = true;
+                },
+                'expired-callback': () => {
+                    isRobotVerified = false;
+                }
+            });
+            window.recaptchaVerifier.render().then(() => {
+                recaptchaRendered = true;
+            }).catch((error) => {
+                console.error("Lỗi tải reCAPTCHA:", error);
+            });
+        }
+    }
 
     function showAuth(mode) {
         document.getElementById('welcomeView').classList.add('d-none');
         document.getElementById('authView').classList.remove('d-none');
         switchTab(mode);
+        initRecaptcha();
     }
 
     function showWelcome() {
         document.getElementById('authView').classList.add('d-none');
         document.getElementById('welcomeView').classList.remove('d-none');
-    }
-
-    function verifyFakeCaptcha() {
-        if (isRobotVerified) return;
-        const box = document.getElementById('captchaBox');
-        const catSurprise = document.getElementById('catSurprise');
-        box.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-secondary" style="font-size:0.85rem;"></i>';
-        setTimeout(() => {
-            box.innerHTML = '<i class="fa-solid fa-check" style="font-size:0.85rem;"></i>';
-            box.classList.add('checked');
-            isRobotVerified = true;
-            catSurprise.classList.remove('d-none');
-        }, 1000);
     }
 
     function togglePassword(inputId, element) {
@@ -400,7 +393,7 @@
     }
 
     function doLogin() {
-        if (!isRobotVerified) { alert("Vui lòng xác minh không phải người máy!"); return; }
+        if (!isRobotVerified) { alert("Vui lòng xác thực reCAPTCHA không phải người máy!"); return; }
         const email = document.getElementById('lEmail').value.trim();
         const pass = document.getElementById('lPass').value;
         const rememberMe = document.getElementById('rememberMe').checked;
@@ -429,7 +422,7 @@
     }
 
     function doRegister() {
-        if (!isRobotVerified) { alert("Vui lòng xác minh không phải người máy!"); return; }
+        if (!isRobotVerified) { alert("Vui lòng xác thực reCAPTCHA không phải người máy!"); return; }
         const email = document.getElementById('rEmail').value.trim();
         const pass = document.getElementById('rPass').value;
 
@@ -452,9 +445,8 @@
         });
     }
 
-    // LOGIC ĐĂNG NHẬP GOOGLE ĐƯỢC GIỮ NGUYÊN & TỐI ƯU
     function loginWithGoogle() {
-        if (!isRobotVerified) { alert("Vui lòng xác minh không phải người máy trước!"); return; }
+        if (!isRobotVerified) { alert("Vui lòng xác thực reCAPTCHA không phải người máy trước!"); return; }
 
         firebase.auth().signInWithPopup(googleProvider)
             .then((result) => {
