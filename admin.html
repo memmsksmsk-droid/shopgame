@@ -37,7 +37,9 @@
         <div class="list-group list-group-flush mt-2">
             <a href="#" class="list-group-item list-group-item-action active" onclick="switchTab(event, 'tab-taikhoan')"><i class="fa-solid fa-users me-2"></i> Quản Lý Tài Khoản</a>
             <a href="#" class="list-group-item list-group-item-action" onclick="switchTab(event, 'tab-giaodich')"><i class="fa-solid fa-money-bill-transfer me-2"></i> Quản Lý Giao Dịch</a>
-            <a href="#" class="list-group-item list-group-item-action" onclick="switchTab(event, 'tab-sanpham')"><i class="fa-solid fa-box-open me-2"></i> Quản Lý Sản Phẩm (Kho)</a>
+            <a href="#" class="list-group-item list-group-item-action" onclick="switchTab(event, 'tab-sanpham')"><i class="fa-solid fa-box-open me-2"></i> Quản Lý Kho & Đăng Bán</a>
+            <!-- THÊM TAB QUẢN LÝ THÔNG BÁO -->
+            <a href="#" class="list-group-item list-group-item-action" onclick="switchTab(event, 'tab-thongbao')"><i class="fa-solid fa-bell me-2"></i> Cài Đặt Thông Báo</a>
             <a href="#" class="list-group-item list-group-item-action text-danger mt-3" onclick="logoutAdmin()"><i class="fa-solid fa-power-off me-2"></i> Đăng Xuất</a>
         </div>
     </div>
@@ -64,15 +66,7 @@
                 <h5><i class="fa-solid fa-users-gear me-2 text-primary"></i>Danh Sách Tài Khoản</h5>
                 <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
                     <table class="table table-bordered text-center m-0 align-middle">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Email</th>
-                                <th>Mật khẩu giải mã</th>
-                                <th>Số dư ví</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>STT</th><th>Email</th><th>Mật khẩu giải mã</th><th>Số dư ví</th><th>Hành động</th></tr></thead>
                         <tbody id="usersTableBody"></tbody>
                     </table>
                 </div>
@@ -122,8 +116,17 @@
                         <form id="productForm" onsubmit="handleCreateProduct(event)">
                             <div class="row g-3">
                                 <div class="col-12">
-                                    <label class="form-label small fw-bold">Tên gói phần mềm:</label>
+                                    <label class="form-label small fw-bold">Tên gói sản phẩm:</label>
                                     <input type="text" id="pName" class="form-control form-control-sm" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold text-danger">Chọn Danh Mục:</label>
+                                    <select id="pCategory" class="form-select form-select-sm border-danger fw-bold">
+                                        <option value="ACC FF">ACC FF</option>
+                                        <option value="ACC PUBG">ACC PUBG</option>
+                                        <option value="ACC LIÊN QUÂN">ACC LIÊN QUÂN</option>
+                                        <option value="ACC FIFA">ACC FIFA</option>
+                                    </select>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label small fw-bold">Giá bán (VNĐ):</label>
@@ -135,14 +138,6 @@
                                     <img id="uploadPreview" src="#" alt="Preview" style="max-width: 100%; max-height: 120px; display: none; margin-top: 10px; border-radius: 4px;">
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label small fw-bold">Icon bổ trợ:</label>
-                                    <select id="pIcon" class="form-select form-select-sm">
-                                        <option value="fa-cube">fa-cube</option>
-                                        <option value="fa-gamepad">fa-gamepad</option>
-                                        <option value="fa-shield-halved">fa-shield-halved</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
                                     <label class="form-label small fw-bold">Mô tả ngắn gọn:</label>
                                     <textarea id="pDesc" rows="2" class="form-control form-control-sm" required></textarea>
                                 </div>
@@ -152,7 +147,7 @@
                                     <small class="text-muted" style="font-size:0.75rem;">Định dạng gợi ý: Tài khoản|Mật khẩu</small>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-sm btn-primary w-100 py-2 fw-bold"><i class="fa-solid fa-upload me-1"></i> ĐĂNG BÁN</button>
+                                    <button type="submit" class="btn btn-sm btn-primary w-100 py-2 fw-bold"><i class="fa-solid fa-upload me-1"></i> ĐĂNG BÁN VÀO DANH MỤC</button>
                                 </div>
                             </div>
                         </form>
@@ -179,6 +174,61 @@
                 </div>
             </div>
         </div>
+
+        <!-- TAB QUẢN LÝ THÔNG BÁO -->
+        <div id="tab-thongbao" class="tab-content">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="admin-card">
+                        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                            <h5 class="m-0"><i class="fa-solid fa-bullhorn text-warning me-2"></i>Nội dung thông báo (Trang Chủ)</h5>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="notiStatus" checked style="transform: scale(1.3);">
+                                <label class="form-check-label fw-bold text-success ms-2" id="notiStatusLabel">Đang Bật</label>
+                            </div>
+                        </div>
+
+                        <form id="noticeForm" onsubmit="handleSaveNotice(event)">
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Tiêu đề (Chữ to trên cùng):</label>
+                                <input type="text" id="nTitle" class="form-control fw-bold" placeholder="VD: THÔNG BÁO" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold text-primary">Nội dung dòng 1 (Chữ Xanh dương):</label>
+                                <input type="text" id="nLine1" class="form-control" placeholder="VD: Hệ thống tích hợp API...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold text-danger">Nội dung dòng 2 (Chữ Đỏ):</label>
+                                <input type="text" id="nLine2" class="form-control" placeholder="VD: Nạp Tiền Min 10K...">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold text-muted">Ghi chú nhỏ (Chữ Xám):</label>
+                                <input type="text" id="nLine3" class="form-control" placeholder="VD: Mọi người gặp vấn đề gì...">
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold"><i class="fa-brands fa-telegram text-primary"></i> Link Telegram:</label>
+                                    <input type="url" id="nTelegram" class="form-control" placeholder="https://t.me/...">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold"><i class="fa-solid fa-comment text-primary"></i> Link Zalo:</label>
+                                    <input type="url" id="nZalo" class="form-control" placeholder="https://zalo.me/...">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label small fw-bold text-danger text-uppercase">Cảnh báo dưới cùng (Chữ IN HOA Đỏ):</label>
+                                <input type="text" id="nBottom" class="form-control fw-bold text-danger" placeholder="VD: NICK LỖI NHẮN GÓC PHẢI...">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold"><i class="fa-solid fa-floppy-disk me-2"></i>LƯU THÔNG BÁO LÊN TRANG CHỦ</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -231,7 +281,11 @@
     let currentBase64Image = "";
 
     window.onload = function() {
-        renderUsersList(); renderCards(); renderOrders(); renderAdminProducts();
+        renderUsersList(); 
+        renderCards(); 
+        renderOrders(); 
+        renderAdminProducts();
+        loadNoticeConfig(); // Load dữ liệu tab thông báo
     };
 
     function renderUsersList() {
@@ -330,7 +384,6 @@
         }
     }
 
-    // THÊM SẢN PHẨM MỚI KÈM THEO DANH SÁCH ACCOUNT
     function handleCreateProduct(e) {
         e.preventDefault();
         if (!currentBase64Image) { alert("Vui lòng tải ảnh lên!"); return; }
@@ -340,22 +393,22 @@
 
         const newProd = {
             name: document.getElementById('pName').value.trim(),
+            category: document.getElementById('pCategory').value,
             price: parseInt(document.getElementById('pPrice').value),
-            icon: document.getElementById('pIcon').value,
+            icon: 'fa-gamepad', 
             desc: document.getElementById('pDesc').value.trim(),
             img: currentBase64Image,
             accounts: accArray
         };
 
         db.ref('sys_products').push(newProd).then(() => {
-            alert("Đã thêm sản phẩm thành công!");
+            alert("Đã thêm sản phẩm vào danh mục " + newProd.category + " thành công!");
             document.getElementById('productForm').reset();
             document.getElementById('uploadPreview').style.display = 'none';
             currentBase64Image = "";
         });
     }
 
-    // RENDER SẢN PHẨM KÈM KHO
     function renderAdminProducts() {
         db.ref('sys_products').on('value', snap => {
             const tbody = document.getElementById('adminProductsTable');
@@ -365,11 +418,13 @@
             const products = Object.keys(data).map(k => ({ id: k, ...data[k] })).reverse();
             tbody.innerHTML = products.map(p => {
                 const stock = p.accounts ? p.accounts.length : 0;
+                const catLabel = p.category ? p.category : 'CHƯA PHÂN LOẠI'; 
                 return `
                 <tr>
                     <td><img src="${p.img}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;"></td>
                     <td class="text-start">
                         <div class="text-rainbow">${p.name}</div>
+                        <div class="mt-1"><span class="badge bg-primary shadow-sm" style="font-size:0.65rem;">${catLabel}</span></div>
                         <div class="text-muted mt-1 small">${p.desc}</div>
                         <div class="mt-2"><span class="badge bg-success shadow-sm">Còn trong kho: ${stock} tài khoản</span></div>
                     </td>
@@ -382,7 +437,6 @@
         });
     }
 
-    // NẠP THÊM ACC VÀO KHO
     function openAddStock(id) {
         document.getElementById('stockProductId').value = id;
         document.getElementById('newStockAccounts').value = "";
@@ -407,6 +461,64 @@
     }
 
     function deleteProduct(id) { if (confirm("Chắc chắn xóa?")) db.ref('sys_products/' + id).remove(); }
+    
+    // ============================================
+    // LOGIC QUẢN LÝ THÔNG BÁO (MODAL HOME)
+    // ============================================
+    
+    // Toggle label Text
+    document.getElementById('notiStatus').addEventListener('change', function() {
+        const label = document.getElementById('notiStatusLabel');
+        if(this.checked) {
+            label.innerText = "Đang Bật";
+            label.className = "form-check-label fw-bold text-success ms-2";
+        } else {
+            label.innerText = "Đang Tắt";
+            label.className = "form-check-label fw-bold text-danger ms-2";
+        }
+    });
+
+    function loadNoticeConfig() {
+        db.ref('sys_settings/notification').once('value', snap => {
+            if(snap.exists()) {
+                const data = snap.val();
+                
+                // Toggle status
+                document.getElementById('notiStatus').checked = data.isActive !== false; // Mặc định là true nếu null
+                document.getElementById('notiStatus').dispatchEvent(new Event('change'));
+
+                // Inputs
+                document.getElementById('nTitle').value = data.title || "THÔNG BÁO";
+                document.getElementById('nLine1').value = data.line1 || "Hệ thống tích hợp API nạp tiền tự động chỉ vài giây";
+                document.getElementById('nLine2').value = data.line2 || "Nạp Tiền Min 10K: Card - Bank 💳";
+                document.getElementById('nLine3').value = data.line3 || "Mọi người gặp vấn đề gì hãy ib để được hỗ trợ tốt nhất";
+                document.getElementById('nTelegram').value = data.telegram || "https://t.me/skibidibach";
+                document.getElementById('nZalo').value = data.zalo || "";
+                document.getElementById('nBottom').value = data.bottomWarning || "NICK LỖI NHẮN GÓC PHẢI ĐỂ HOÀN TIỀN";
+            }
+        });
+    }
+
+    function handleSaveNotice(e) {
+        e.preventDefault();
+        const notiData = {
+            isActive: document.getElementById('notiStatus').checked,
+            title: document.getElementById('nTitle').value,
+            line1: document.getElementById('nLine1').value,
+            line2: document.getElementById('nLine2').value,
+            line3: document.getElementById('nLine3').value,
+            telegram: document.getElementById('nTelegram').value,
+            zalo: document.getElementById('nZalo').value,
+            bottomWarning: document.getElementById('nBottom').value
+        };
+
+        db.ref('sys_settings/notification').set(notiData).then(() => {
+            alert("Đã lưu Cấu hình thông báo thành công!");
+        }).catch(err => {
+            alert("Lỗi: " + err.message);
+        });
+    }
+
     function logoutAdmin() { if (confirm("Đăng xuất?")) window.location.href = 'index.html'; }
 </script>
 </body>
